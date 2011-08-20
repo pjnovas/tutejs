@@ -1,0 +1,108 @@
+body
+{
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:18px;
+	color: #000;
+}
+
+div.playerHand{
+	float:left;
+	width:100%;
+}
+
+div.playerCard{
+	margin: 20px -30px 0 0;
+	float:left;
+}
+
+div.playerDropSpot{
+	width:105px;
+	height:140px;
+	border:solid 1px silver;
+	color:silver;
+	float:left;
+	margin: 20px 10px;
+	line-height:8;
+	text-align:center;
+}
+
+div.playerCard:hover{
+	margin-top: 0px;
+	cursor:pointer;
+}
+
+div.playerName{
+	width: 150px;	
+	float:left;
+	line-height:10;
+}
+
+.droppedCard{
+	position:absolute;
+	left:170px;	
+	z-index:2;
+}
+
+.card
+{
+	width:100px;
+	height:140px;
+	background:url('../images/cards.png');
+	background-repeat:no-repeat;		
+}
+
+.oro-1  { background-position:  0px 0px; }
+.oro-2  { background-position:  -100px 0px; }
+.oro-3  { background-position:  -200px 0px; }
+.oro-4  { background-position:  -300px 0px; }
+.oro-5  { background-position:  -400px 0px; }
+.oro-6  { background-position:  -500px 0px; }
+.oro-7  { background-position:  -600px 0px; }
+.oro-10 { background-position:  -700px 0px; }
+.oro-11 { background-position:  -800px 0px; }
+.oro-12 { background-position:  -900px 0px; }
+
+.copa-1  { background-position:  0px -140px; }
+.copa-2  { background-position:  -100px -140px; }
+.copa-3  { background-position:  -200px -140px; }
+.copa-4  { background-position:  -300px -140px; }
+.copa-5  { background-position:  -400px -140px; }
+.copa-6  { background-position:  -500px -140px; }
+.copa-7  { background-position:  -600px -140px; }
+.copa-10 { background-position:  -700px -140px; }
+.copa-11 { background-position:  -800px -140px; }
+.copa-12 { background-position:  -900px -140px; }
+
+.espada-1  { background-position:  0px -280px; }
+.espada-2  { background-position:  -100px -280px; }
+.espada-3  { background-position:  -200px -280px; }
+.espada-4  { background-position:  -300px -280px; }
+.espada-5  { background-position:  -400px -280px; }
+.espada-6  { background-position:  -500px -280px; }
+.espada-7  { background-position:  -600px -280px; }
+.espada-10 { background-position:  -700px -280px; }
+.espada-11 { background-position:  -800px -280px; }
+.espada-12 { background-position:  -900px -280px; }
+
+.basto-1  { background-position:  0px -420px; }
+.basto-2  { background-position:  -100px -420px; }
+.basto-3  { background-position:  -200px -420px; }
+.basto-4  { background-position:  -300px -420px; }
+.basto-5  { background-position:  -400px -420px; }
+.basto-6  { background-position:  -500px -420px; }
+.basto-7  { background-position:  -600px -420px; }
+.basto-10 { background-position:  -700px -420px; }
+.basto-11 { background-position:  -800px -420px; }
+.basto-12 { background-position:  -900px -420px; }
+
+
+
+/* CREATE ********************************************/
+
+form div{
+	float:left;
+	width: 100%;
+	margin: 20px;
+}
+
+
