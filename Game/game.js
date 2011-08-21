@@ -11,11 +11,14 @@ var CardNumbers = [1,3,12,11,10,7,6,5,4,2];
 var Game = function(params){
 	this.playersAmm = params.playersAmm;
 	this.name = params.name;
-	this.players = null;
+	this.players = [];
+	
+	console.log('Game instanciatiated with plAmm: ' + this.playersAmm);
+	console.log('name: ' + this.name);
 }
 
 Game.prototype.startGame = function(){
-		
+	
 } 
 
 Game.prototype.joinPlayer = function(name){
@@ -23,6 +26,9 @@ Game.prototype.joinPlayer = function(name){
 	var pl = new Player(name);
 	this.players.push(pl);
 	
+	console.log('Player pushed - name: ' + name);	
+	console.log('Player length: ' + this.players.length);
+
 	if (this.players.length == this.playersAmm){
 		this.startGame();
 		return true;
@@ -79,13 +85,13 @@ Round.prototype.Move = function (){
 /****************************************************/
 
 function Player(name){
-	this.name = null;
+	this.name = name;
 	this.handCards = [];
 }
 
 Player.prototype.AssignCard = function (aCard){
 	this.handCards.push(aCard);
-	aCard.Player = this;
+	aCard.player = this;
 }
 
 Player.prototype.DropCard = function (aCard){
@@ -163,6 +169,7 @@ Deck.prototype.BuildDeck = function(){
 function DeckCard(suit, number){
 	this.number = number;
 	this.suit = suit;
+	this.player = null;
 }
 
 /****************************************************/

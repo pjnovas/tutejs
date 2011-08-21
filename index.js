@@ -10,6 +10,7 @@ var nowjs = require("now");
 var handle = {}
 handle["/"] = requestHandlers.create;
 handle["/play"] = requestHandlers.play;
+handle["/playTest"] = requestHandlers.playTest;
 handle["/home"] = requestHandlers.home;
 handle["/create"] = requestHandlers.create;
 handle["/createGame"] = requestHandlers.createGame;

@@ -6,6 +6,7 @@ var tute = require('./Game/game');
 var createPage = require('fs').readFileSync(__dirname + '/create.html');
 var homePage = require('fs').readFileSync(__dirname + '/index.html');
 var playPage = require('fs').readFileSync(__dirname + '/play.html');
+var playTPage = require('fs').readFileSync(__dirname + '/playTest.html');
 var querystring = require('querystring');
 
 var gm = null;
@@ -37,6 +38,10 @@ function play(response, postData) {
 	}
 }
 
+function playTest(response, postData) {
+	response.end(playTPage);
+}
+
 function home(response, postData) {
 	response.end(homePage);
 }
@@ -47,20 +52,13 @@ function redirect(response, url){
 	response.end();
 }
 
-var players = [];
-var state = false;
-
 function joinPlayer(playerName){
-	players.push(playerName);
-	if (players.length == 3)
-		state = true;	
+	console.log('joingPlayer Executed: about to use Game class');
 	
 	return {
-		state: state,
-		players: players
-	};
-	
-	//return false; // gm.joinPlayer(playerName);
+		state: gm.joinPlayer(playerName),
+		players: gm.players
+	}; 
 };
 
 exports.joinPlayer = joinPlayer;
@@ -69,5 +67,5 @@ exports.home = home;
 exports.play = play;
 exports.create = create;
 exports.createGame = createGame;
-
+exports.playTest = playTest;
 
