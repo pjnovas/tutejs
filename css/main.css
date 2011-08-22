@@ -247,6 +247,11 @@ div.droppedCard {
 	border-radius: 5px;
 }
 
+div.available:hover div.status{
+	background-color: green;
+	cursor: pointer;
+}
+
 div.pos-0, div.pos-1, div.pos-2, div.pos-3, div.pos-4{
 	width: 170px;
 	height: 170px;	

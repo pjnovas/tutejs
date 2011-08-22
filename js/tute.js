@@ -1,22 +1,66 @@
-
-
+/*
+now.ready(function(){
+   now.initPlay();
+});
+  */
 $(document).ready(function(){
-	now.playerHasJoined = function(name, players){
-		alert('El jugador ' + name + ' se ha unido a la partida');
-		
-		$('#players li').empty().remove();
-		for(var i=0; i <= players.length; i++) {
-			$('#players').append($('<li>').text(players[i].name));
-		}
-	}
+	now.name = prompt("Tu nombre?", "");
+	
+	InitChat();
+	
+   	//now.initPlay();
+	
+	var $places = $('div.gameStatus div.available');
+	$places.bind('click', function(){
+		now.sit = parseFloat($(this).attr('idx'));
+		$places.removeClass('available').unbind('click');
+		$places.not('[idx=' + now.sit + '] ').children('div.plName').text('Esperando...');
+		now.joinPlayer();
+	});
+	
+	now.updatePlayers = function(players){		
+		refreshPlayersStatus(players);
+	};
 	
 	now.startGame = function(){
-		$('#gameStarted').text('GAME STARTED');
-	}
+		alert('GAME STARTED');
+	};
 	
-	now.name = prompt("Tu nombre?", "");
-	now.joinPlayer();
+	$('#txtChat').attr('disabled', false);
 });
+
+function refreshPlayersStatus(players){
+	for(var i=0; i < players.length; i++) {
+		var $plCtn = $('div.gameStatus div.pos-'+ players[i].position);
+		$('div.plName', $plCtn).text(players[i].name);
+		//$('div.stolenCards', $plCtn).text(players[i].name);
+		//$('div.status', $plCtn).text(players[i].name);
+		//$('div.droppedCard', $plCtn).text(players[i].name);
+		
+		if ($plCtn.hasClass('available'))
+			$plCtn.removeClass('available').unbind('click');
+	}
+}
+
+function InitChat(){
+	now.sendlog = function(who, msg){
+		$('#console').append('<dt>&gt; ' + who + '</dt>:');
+		$('#console').append('<dd>' + msg + '</dd>');
+	};
+	
+	var $txtChat = $('#txtChat'); 
+	$txtChat.bind('keypress', function (e){
+		var code = (e.keyCode ? e.keyCode : e.which);
+ 		if(code === 13) {
+			SendToLogChat(now.name, $txtChat.val() );
+			$txtChat.val('');
+		}
+	});
+}
+
+function SendToLogChat(who, msg){
+	now.sendChatMsg(who, msg);
+}
 
 function InitPresentation(){
 	

@@ -30,12 +30,8 @@ function play(response, postData) {
 	console.log('Enter Game ' + gm.name + ' with ' + gm.playersAmm + ' players');	
 	
 	if (gm === null)
-	{
 		redirect(response, '/create');
-	}
-	else {
-		response.end(playPage);
-	}
+	else response.end(playPage);
 }
 
 function playTest(response, postData) {
@@ -52,15 +48,23 @@ function redirect(response, url){
 	response.end();
 }
 
-function joinPlayer(playerName){
+function joinPlayer(playerName, sit){
 	console.log('joingPlayer Executed: about to use Game class');
 	
 	return {
-		state: gm.joinPlayer(playerName),
+		state: gm.joinPlayer(playerName, sit),
 		players: gm.players
 	}; 
 };
 
+function getPlayers(){
+	console.log('getPlayers Executed');
+	
+	console.log('getPlayers: quantity of players: ' + gm.players.length);
+	return gm.players;
+};
+
+exports.getPlayers = getPlayers;
 exports.joinPlayer = joinPlayer;
 
 exports.home = home;

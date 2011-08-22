@@ -4,9 +4,9 @@
 	<script type="text/javascript" src="js/jquery-1.6.2.min.js" ></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.15.custom.min.js" ></script>
         
+    <script src="/nowjs/now.js"></script>
+        
 	<script type="text/javascript" src="js/tute.js" ></script>
-
-	<script src="/nowjs/now.js"></script>
     
     <link rel="stylesheet" type="text/css" media="screen" href="css/pepper-grinder/jquery-ui-1.8.15.custom.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
@@ -14,10 +14,49 @@
 </head>
 
 <body>
-	<div id="gameStarted" style="float:left; margin-right:50px;"></div>
-	<ul id="players" style="float:left; margin-right:50px;"></ul>    
-	<div id="tableGame">
-	</div>
-	
+	<div class="left">
+    	<h1>Tute.js</h1>
+        <dl id="console"></dl>
+        <input id="txtChat" type="text" disabled="disabled"/>
+    </div>
+    <div class="right">
+    	<div class="gameStatus">
+        	<div class="trumpCtn">Triunfo<div class="trump trump-oro"></div></div>
+        	<div class="pos-0 available" idx="0">
+            	<div class="plName">[Disponible]</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-1 available" idx="1">
+            	<div class="plName">[Disponible]</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-2 available" idx="2">
+            	<div class="plName">[Disponible]</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-3 available" idx="3">
+            	<div class="plName">[Disponible]</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-4 available" idx="4">
+            	<div class="plName">[Disponible]</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div id="tableGame">
+            </div>
+        </div>
+    </div>   
+    <div class="bottom">
+    </div> 
 </body>
 </html>

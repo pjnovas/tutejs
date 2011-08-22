@@ -21,9 +21,9 @@ Game.prototype.startGame = function(){
 	
 } 
 
-Game.prototype.joinPlayer = function(name){
+Game.prototype.joinPlayer = function(name, pos){
 	
-	var pl = new Player(name);
+	var pl = new Player(name, pos);
 	this.players.push(pl);
 	
 	console.log('Player pushed - name: ' + name);	
@@ -84,8 +84,9 @@ Round.prototype.Move = function (){
 
 /****************************************************/
 
-function Player(name){
+function Player(name, pos){
 	this.name = name;
+	this.position = pos;
 	this.handCards = [];
 }
 
