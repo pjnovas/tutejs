@@ -59,8 +59,6 @@ function joinPlayer(playerName, sit){
 
 function getPlayers(){
 	console.log('getPlayers Executed');
-	
-	console.log('getPlayers: quantity of players: ' + gm.players.length);
 	return gm.players;
 };
 

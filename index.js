@@ -20,23 +20,13 @@ var currentServer = server.startServer(router.route, handle);
 var everyone = nowjs.initialize(currentServer);
 console.log("NowJs Initialized");
 
-/*
-everyone.now.initPlay = function(){	
-	console.log('----------------------------------------------------------------------------');
-	console.log('----------------------------------------------------------------------------');
-	var players = requestHandlers.getPlayers();
-	everyone.now.updatePlayers(players);
-	console.log('----------------------------------------------------------------------------');
-	console.log('----------------------------------------------------------------------------');
-};
-*/
 
 nowjs.on('connect', function(){
       var players = requestHandlers.getPlayers();
-      everyone.now.updatePlayers(players);
+      this.now.updatePlayers(players);
+      this.now.startScreeen();
 });
 
-	
 everyone.now.joinPlayer = function(){
 	var plName = this.now.name;
 	console.log('Player ' + plName + ' has joined');

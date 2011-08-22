@@ -1,14 +1,12 @@
-/*
-now.ready(function(){
-   now.initPlay();
-});
-  */
-$(document).ready(function(){
+
+now.startScreeen = function(){
 	now.name = prompt("Tu nombre?", "");
+	$('#conecting').hide();	
+}
+	
+$(document).ready(function(){
 	
 	InitChat();
-	
-   	//now.initPlay();
 	
 	var $places = $('div.gameStatus div.available');
 	$places.bind('click', function(){
