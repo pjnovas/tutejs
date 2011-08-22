@@ -107,8 +107,285 @@ form div{
 
 /* PLAY ********************************************/
 
+h1{
+	font-family: Terminal, Verdana, Geneva, sans-serif;
+	font-size: 30px;
+	color: #1a8401;
+	margin:0;
+}
+
+div.left{
+	width:300px;
+	height:450px;
+	float:left;
+}
+
+div.right{
+	width:700px;
+	height:450px;
+	float:left;
+}
+
+div.bottom{
+	border:solid 1px gray;
+	width:1000px;
+	height:200px;
+	float:left;
+}
+
+dl#console{
+	list-style:none;
+	border:solid 2px #656565;
+	font-size:16px;
+	height: 370px;
+	width:296px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	background-color:#ebebeb;
+	float:left;
+	margin:0;
+}
+
+dl#console dt {
+	font-weight: bold;
+	float:left;
+}
+
+dl#console dd {
+	float:none;
+}
+
+input#txtChat{
+	border: solid 2px #656565;
+	border-top: none;
+	width:300px;
+	background-color:#ebebeb;
+	font-size:16px;
+	height:30px;
+}
+
+div.gameStatus {
+	position:relative;
+	width:700px;
+	height:450px;
+}
+
+/* Table - Player Positions *************************************************/
+
+div.trumpCtn {
+	position:absolute;
+	top: 10px;
+	left: 40px;
+	width:130px;
+	height:50px;
+	line-height:2.5;
+}
+
+div.trump{
+	background:url('../images/trumps.png');
+	background-position:  0px 0px;
+	background-repeat: no-repeat;	
+	width:50px;
+	height:50px;
+	float:right;
+	border:solid 2px silver;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+div.trump.trump-oro   { background-position:  0px 0px; }
+div.trump.trump-copa  { background-position:  -50px 0px; }
+div.trump.trump-espada{ background-position:  -100px 0px; }
+div.trump.trump-basto { background-position:  -150px 0px; }
+
+div#tableGame {
+	background:url('../images/table.png');
+	background-position:0 0;
+	background-repeat: no-repeat;
+	width: 420px;
+	height:260px;
+	position: absolute;
+	top:100px;
+	left:150px;
+	z-index: 1;
+}
+
+div.plName{
+	position: absolute;
+	width:150px;
+	text-align:center;
+}
+
+div.stolenCards{
+	width:40px;
+	height: 40px;
+	position: absolute;
+}
+
+div.status{
+	border: solid 3px #323232;
+	background-color:silver;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	color: yellow;
+	line-height: 2.4;
+	text-align: center;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+div.droppedCard {
+	border: solid 2px white;
+	width:40px;
+	height: 50px;
+	position: absolute;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+div.pos-0, div.pos-1, div.pos-2, div.pos-3, div.pos-4{
+	width: 170px;
+	height: 170px;	
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 16px;
+	position: absolute;
+	z-index: 2;
+}
+
+div.pos-0 {
+	top:90px;
+	left:465px;	
+}
+
+div.pos-0 div.plName{
+	top:0;
+	left:10px;	
+}
+
+div.pos-0 div.stolenCards{
+	top:25px;
+	left:120px;	
+}
+
+div.pos-0 div.status{
+	top:25px;
+	left:70px;	
+}
+
+div.pos-0 div.droppedCard{
+	top:80px;
+	left:0;	
+}
 
 
+
+div.pos-1 {
+	top:25px;
+	left:275px;	
+}
+
+div.pos-1 div.plName{
+	top:0;
+	left:10px;	
+}
+
+div.pos-1 div.stolenCards{
+	top:25px;
+	left:120px;	
+}
+
+div.pos-1 div.status{
+	top:25px;
+	left:70px;	
+}
+
+div.pos-1 div.droppedCard{
+	top:115px;
+	left:70px;
+}
+
+
+
+div.pos-2 {
+	top:90px;
+	left:90px;	
+}
+
+div.pos-2 div.plName{
+	top:0;
+	left:0;	
+}
+
+div.pos-2 div.stolenCards{
+	top:25px;
+	left:0;	
+}
+
+div.pos-2 div.status{
+	top:25px;
+	left:50px;	
+}
+
+div.pos-2 div.droppedCard{
+	top:80px;
+	left:128px;	
+}
+
+
+div.pos-3 {
+	top:250px;
+	left:155px;	
+}
+
+div.pos-3 div.plName{
+	top:120px;
+	left:0;	
+}
+
+div.pos-3 div.stolenCards{
+	top:75px;
+	left:0;	
+}
+
+div.pos-3 div.status{
+	top:75px;
+	left:50px;	
+}
+
+div.pos-3 div.droppedCard{
+	top:0;
+	left:128px;	
+}
+
+
+div.pos-4 {
+	top:250px;
+	left:400px;	
+}
+
+div.pos-4 div.plName{
+	top:120px;
+	left:15px;	
+}
+
+div.pos-4 div.stolenCards{
+	top:75px;
+	left:125px;	
+}
+
+div.pos-4 div.status{
+	top:75px;
+	left:75px;	
+}
+
+div.pos-4 div.droppedCard{
+	top:0;
+	left:0;	
+}
 
 
 

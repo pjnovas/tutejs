@@ -4,18 +4,68 @@
 	<script type="text/javascript" src="js/jquery-1.6.2.min.js" ></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.15.custom.min.js" ></script>
         
-	<script src="/nowjs/now.js"></script>
-    
     <link rel="stylesheet" type="text/css" media="screen" href="css/pepper-grinder/jquery-ui-1.8.15.custom.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
 
 </head>
 
 <body>
-	<div id="gameStarted" style="float:left; margin-right:50px;"></div>
-	<ul id="players" style="float:left; margin-right:50px;"></ul>    
-	<div id="tableGame">
-	</div>
-	
+	<div class="left">
+    	<h1>Tute.js</h1>
+        <dl id="console">
+            <dt>&gt; System</dt>:
+            <dd>Game Started</dd>
+            <dt>&gt; System</dt>:
+            <dd>Player 1 joined</dd>
+            <dt>&gt; System</dt>:
+            <dd>Waiting players...</dd>
+            <dt>&gt; Plyer 1</dt>:
+            <dd>Buenasssss</dd>
+        </dl>
+        <input id="txtChat" type="text" />
+    </div>
+    <div class="right">
+    	<div class="gameStatus">
+        	<div class="trumpCtn">Triunfo <div class="trump trump-oro"></div></div>
+        	<div class="pos-0">
+            	<div class="plName">Player 0</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-1">
+            	<div class="plName">Player 1</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-2">
+            	<div class="plName">Player 2</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-3">
+            	<div class="plName">Player 3</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div class="pos-4">
+            	<div class="plName">Player 4</div>
+                <div class="stolenCards"></div>
+                <div class="status"></div>
+                <div class="droppedCard"></div>
+            </div>
+            <div id="tableGame">
+            </div>
+        </div>
+    </div>   
+    <div class="bottom">
+    </div> 
 </body>
 </html>
+
+
+
+
