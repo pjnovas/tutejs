@@ -1,24 +1,85 @@
 
-var Suit = {
-	'oro':'Oro',
-	'copa':'Copa',
-	'espada': 'Espada',
-	'basto': 'Basto'
+
+var gameInstance = null;
+
+var createGame = function(gmName, plAmm){
+	gameInstance = new Game({
+		name: gmName,
+		playersAmm: plAmm
+	});	
 }
 
+var getSitsAmmount = function () {
+	return gameInstance.playersAmm;
+}
+
+var isGameActive = function(){
+	return (gameInstance !== null); 
+}
+
+var joinPlayer = function(plName, position){
+	return gameInstance.joinPlayer(plName, position);
+}
+
+var getPlayers = function(){
+	if (gameInstance !== null)
+		return gameInstance.players;
+	else return [];
+}
+
+var dropCard = function(playerIdx, cardNbr, cardSuit){
+	//TODO: check if it is player turn
+	
+	for (var i=0; i<gameInstance.players.length; i++){
+		
+		var player = gameInstance.players[i];
+		if (playerIdx === player.position)
+			return player.dropCard(cardNbr, cardSuit);
+	}
+	
+	return false;
+}
+
+exports.getSitsAmmount = getSitsAmmount;
+exports.createGame = createGame;
+exports.isGameActive = isGameActive;
+exports.joinPlayer = joinPlayer; 
+exports.getPlayers = getPlayers; 
+
+exports.dropCard = dropCard; 
+
+/**************************************************************************/
+/**************************************************************************/
+
+var Suit = ['oro','copa','espada','basto'];
 var CardNumbers = [1,3,12,11,10,7,6,5,4,2]; 
 
 var Game = function(params){
 	this.playersAmm = params.playersAmm;
 	this.name = params.name;
+	
 	this.players = [];
 	
-	console.log('Game instanciatiated with plAmm: ' + this.playersAmm);
-	console.log('name: ' + this.name);
+	this.currentTrumpIdx = null;
+	this.playerTurn = null;
 }
 
 Game.prototype.startGame = function(){
+	this.rounds = [];
 	
+	if (this.currentTrumpIdx === null)
+		this.currentTrumpIdx = 0;
+	else if (this.currentTrumpIdx == 4)
+		this.currentTrumpIdx = 0;
+	else this.currentTrumpIdx++;
+	
+	if (this.playerTurn === null)
+		this.playerTurn = 0;
+	else if (this.playerTurn === this.players.length)
+		this.playerTurn = 0;
+	else this.playerTurn++;
+	
+	this.nextRound();
 } 
 
 Game.prototype.joinPlayer = function(name, pos){
@@ -37,49 +98,32 @@ Game.prototype.joinPlayer = function(name, pos){
 	return false;	
 }
 
-Game.prototype.destroy = function(){
-	
-	//Destroy players
-	for(var i=0; i< this.players.length;i++){
-		this.players[i].destroy();
-		this.players[i] = null;
-	}
-	this.players = null;
-	
-}
-
-exports.Game = Game;
-
-/****************************************************/
-
-function Room(){
-	this.players = null;
-	this.round = null;
-}
-
-Room.prototype.JoinPlayer = function(){
-		
+Game.prototype.nextRound = function(playerIndex){
+	var round = new Round(playerIndex, this);
+	round.start();
 }
 
 /****************************************************/
 
-function Round(dealer, turnIndex, playersNbr){
-	this.dealer = dealer;
+function Round(turnIndex, game){
+	this.game = game;
 	this.playerTurn = turnIndex;
-	this.playersNumber = playersNbr;
-	
-	this.Start();
+	this.playersNumber = game.players.length;
 }
 
-Round.prototype.Start = function (){
-	
+Round.prototype.start = function (){
+	this.game.playerTurn = this.playerTurn;
+	var dealer = new Dealer();
+	dealer.Deal(this.game.players);	
 }
 
-Round.prototype.Move = function (){
+Round.prototype.move = function (){
 	if (this.playerTurn < this.playersNumber){
 		this.playerTurn++;
 	}
-	else {}
+	else this.playerTurn = 0;
+	
+	this.game.playerTurn = this.playerTurn;
 }
 
 /****************************************************/
@@ -88,17 +132,27 @@ function Player(name, pos){
 	this.name = name;
 	this.position = pos;
 	this.handCards = [];
+	this.droppedCard = null;
 }
 
 Player.prototype.AssignCard = function (aCard){
 	this.handCards.push(aCard);
-	aCard.player = this;
+	//aCard.player = this;
 }
 
-Player.prototype.DropCard = function (aCard){
+Player.prototype.dropCard = function (cardNbr, cardSuit){
+	for (var i=0; i< this.handCards.length; i++){
+		var aCard = this.handCards[i];
+		if (cardNbr === aCard.number && cardSuit === aCard.suit){
+			this.droppedCard = aCard;
+			//this.handCards.splice()
+			return true;	
+		}
+	}
 	
+	return false;
 }
-
+/*
 Player.prototype.SortHand = function(){
 	this.handCards.sort(function (a, b) { 
 		var diff = $.inArray(a.suit, Suit) - $.inArray(b.suit, Suit);
@@ -107,6 +161,11 @@ Player.prototype.SortHand = function(){
 		
 		return diff;
 	});
+}
+*/
+Player.prototype.GetHandCards = function(){
+	//this.SortHand();
+	return this.handCards;
 }
 
 /****************************************************/
@@ -136,7 +195,7 @@ Dealer.prototype.Deal = function(players){
 	var cPlayer = 0;
 	var maxPlayers = players.length;
 	
-	var cards = this.Cards;
+	var cards = this.deck.cards;
 	var cL = cards.length;
 	
 	for (var i=0; i< cL; i++){
@@ -170,7 +229,20 @@ Deck.prototype.BuildDeck = function(){
 function DeckCard(suit, number){
 	this.number = number;
 	this.suit = suit;
-	this.player = null;
+	
+	function getValue () {
+		switch(this.number){
+			case 1: return 11;
+			case 3: return 10;
+			case 12: return 4;
+			case 11: return 3;
+			case 10: return 2;
+			default: return 0;
+		}
+	}
+	
+	this.value = getValue();
+	//this.player = null;
 }
 
 /****************************************************/

@@ -6,6 +6,7 @@ var server = require("./server");
 var router = require("./router");
 var requestHandlers = require("./requestHandlers");
 var nowjs = require("now");
+var tute = require('./Game/game');
 
 var handle = {}
 handle["/"] = requestHandlers.create;
@@ -22,9 +23,11 @@ console.log("NowJs Initialized");
 
 
 nowjs.on('connect', function(){
-      var players = requestHandlers.getPlayers();
-      this.now.updatePlayers(players);
-      this.now.startScreeen();
+	//TODO: checkout if the player is already connected.
+	everyone.now.qpl = tute.getSitsAmmount();
+	 
+	this.now.updatePlayers(tute.getPlayers());
+	this.now.startScreeen();
 });
 
 everyone.now.joinPlayer = function(){
@@ -33,15 +36,23 @@ everyone.now.joinPlayer = function(){
 	
 	everyone.now.sendlog('Sistema','Ha ingresado ' + plName);
 	
-	var state = requestHandlers.joinPlayer(plName, this.now.sit);
-	everyone.now.updatePlayers(state.players);
+	var gameStarted = tute.joinPlayer(plName, this.now.sit);
+	everyone.now.updatePlayers(tute.getPlayers());
 	
-	/*
-	if (state.state){
-		everyone.now.startGame();
+	if (gameStarted){
+		console.log('game started');
+		everyone.now.sendlog('Sistema','Juego Iniciado!');
+		//everyone.now.startGame();
 	}
-	*/
 };
+
+everyone.now.dropCard = function(cardNbr, cardSuit){
+	var wasDropped = tute.dropCard(this.now.sit, cardNbr, cardSuit);
+	if (wasDropped){
+		everyone.now.updatePlayers(tute.getPlayers());
+		everyone.now.sendlog(this.now.name,'Tiro carta ' + cardNbr + ' de ' + cardSuit);		
+	}
+}
 
 everyone.now.sendChatMsg = function(who, msg){
 	everyone.now.sendlog(who, msg);

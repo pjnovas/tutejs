@@ -1,5 +1,19 @@
 
+var Suit = ['oro','copa','espada','basto'];
+var CardNumbers = [1,3,12,11,10,7,6,5,4,2]; 
+
 now.startScreeen = function(){
+	
+	switch(now.qpl){
+		case 3:
+			$('div.gameStatus div.pos-0').hide();
+			$('div.gameStatus div.pos-2').hide();
+			break;
+		case 4:
+			$('div.gameStatus div.pos-1').hide();
+			break;
+	}
+	
 	now.name = prompt("Tu nombre?", "");
 	$('#conecting').hide();	
 }
@@ -20,9 +34,11 @@ $(document).ready(function(){
 		refreshPlayersStatus(players);
 	};
 	
+	/*
 	now.startGame = function(){
 		alert('GAME STARTED');
 	};
+	*/
 	
 	$('#txtChat').attr('disabled', false);
 });
@@ -33,11 +49,51 @@ function refreshPlayersStatus(players){
 		$('div.plName', $plCtn).text(players[i].name);
 		//$('div.stolenCards', $plCtn).text(players[i].name);
 		//$('div.status', $plCtn).text(players[i].name);
-		//$('div.droppedCard', $plCtn).text(players[i].name);
+		if (players[i].droppedCard === null){}
+		else {
+			$('div.droppedCard', $plCtn).text(
+				players[i].droppedCard.number + ' de ' + players[i].droppedCard.suit  
+				);
+		}
 		
 		if ($plCtn.hasClass('available'))
 			$plCtn.removeClass('available').unbind('click');
+			
+		if (now.sit === players[i].position)
+			showMyCards(players[i].handCards);
+		
+		//TODO: Check when is player turn
+		$('div.playerCard').bind('click', function(e){
+			var card = $(this).data('card');
+			now.dropCard(card.number, card.suit);
+		});
 	}
+}
+
+function showMyCards(cards){
+	cards.sort(function (a, b) { 
+		var diff = $.inArray(a.suit, Suit) - $.inArray(b.suit, Suit);
+		if (diff === 0)
+			diff = $.inArray(a.number, CardNumbers) - $.inArray(b.number, CardNumbers);
+		
+		return diff;
+	});
+	
+	var $tr = $('div.playerHand');
+	$tr.children('div').empty().remove();
+	
+	for(j=0; j< cards.length; j++ ){
+		var card = cards[j];
+		$tr.append(
+			$('<div>')
+			.addClass('playerCard')
+			.addClass('card')
+			.addClass(card.suit.toLowerCase() + '-' + card.number)
+			.data('card', card)
+		);
+	}
+	
+	$('div.bottom').append($tr);
 }
 
 function InitChat(){
