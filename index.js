@@ -26,7 +26,7 @@ nowjs.on('connect', function(){
 	//TODO: checkout if the player is already connected.
 	everyone.now.qpl = tute.getSitsAmmount();
 	 
-	this.now.updatePlayers(tute.getPlayers());
+	this.now.updatePlayers(tute.getPlayers(), null);
 	this.now.startScreeen();
 });
 
@@ -36,22 +36,25 @@ everyone.now.joinPlayer = function(){
 	
 	var gameStarted = tute.joinPlayer(plName, this.now.sit);
 	everyone.now.sendlog('Sistema','Ha ingresado ' + plName);
+	var plTurn = null;
 	
 	if (gameStarted){
-		everyone.now.playerTurn = tute.getPlayerTurn();
-		
-		console.log('game started');
+		plTurn = tute.getPlayerSit();
+		//console.log('player turn: ' + tute.getPlayerSit());
+		//everyone.now.playerTurn = tute.getPlayerSit();
 		everyone.now.sendlog('Sistema','Juego Iniciado!');
 		//everyone.now.startGame();
 	}
 	
-	everyone.now.updatePlayers(tute.getPlayers());
+	everyone.now.updatePlayers(tute.getPlayers(), plTurn);
 };
 
 everyone.now.dropCard = function(cardNbr, cardSuit){
 	var wasDropped = tute.dropCard(this.now.sit, cardNbr, cardSuit);
 	if (wasDropped){
-		everyone.now.updatePlayers(tute.getPlayers());
+		//everyone.now.playerTurn = tute.getPlayerSit();
+		//console.log('----------------------------- player t: ' + everyone.now.playerTurn);
+		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
 		everyone.now.sendlog(this.now.name, 'Tiro carta ' + cardNbr + ' de ' + cardSuit);
 	}
 };

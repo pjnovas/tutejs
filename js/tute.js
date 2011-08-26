@@ -32,40 +32,27 @@ $(document).ready(function(){
 		now.joinPlayer();
 	});
 	
-	now.updatePlayers = function(players){		
-		refreshPlayersStatus(players);
+	now.updatePlayers = function(players, sitTurn){		
+		refreshPlayersStatus(players, sitTurn);
 	};
-	
-	/*
-	now.startGame = function(){
-		alert('GAME STARTED');
-	};
-	*/
 	
 	$('#txtChat').attr('disabled', false);
 });
 
-function refreshPlayersStatus(players){
+function refreshPlayersStatus(players, plTurn){
+	
 	for(var i=0; i < players.length; i++) {
 		var $plCtn = $('div.gameStatus div.pos-'+ players[i].position);
 		$('div.plName', $plCtn).text(players[i].name);
 		
 		//$('div.stolenCards', $plCtn).text(players[i].name);
 		
-		$('div#a').append('pl turn' + now.playerTurn);
-		if (players[i].position === now.playerTurn){
+		$('div#a').append('<br/> pl turn ' + plTurn);
+		if (players[i].position === plTurn){
 			$('div.status', $plCtn).css('background-color', 'yellow');
-			
-			$('div.playerCard').bind('click', function(e){
-				var card = $(this).data('card');
-				now.dropCard(card.number, card.suit);
-			});
-			$('div#a').append('bindeo');
 		}
 		else {
 			$('div.status', $plCtn).css('background-color', '');
-			$('div.playerCard').unbind('click');
-			$('div#a').append('Desbindeo');
 		}
 		
 		if (players[i].droppedCard === null){}
@@ -79,11 +66,11 @@ function refreshPlayersStatus(players){
 			$plCtn.removeClass('available').unbind('click');
 			
 		if (now.sit === players[i].position)
-			showMyCards(players[i].handCards);
+			showMyCards(players[i].handCards, plTurn);
 	}
 }
 
-function showMyCards(cards){
+function showMyCards(cards, plTurn){
 	cards.sort(function (a, b) { 
 		var diff = $.inArray(a.suit, Suit) - $.inArray(b.suit, Suit);
 		if (diff === 0)
@@ -107,6 +94,19 @@ function showMyCards(cards){
 	}
 	
 	$('div.bottom').append($tr);
+	
+	// Bind/ Unbind drop card events
+	if (now.sit === plTurn){
+		$('div.playerCard').bind('click', function(e){
+			var card = $(this).data('card');
+			now.dropCard(card.number, card.suit);
+		});
+		$('div#a').append(' bindeo ');
+	}
+	else {
+		$('div.playerCard').unbind('click');
+		$('div#a').append(' desbindeo ');
+	}
 }
 
 function InitChat(){
