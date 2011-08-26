@@ -11,6 +11,8 @@ now.startScreeen = function(){
 			break;
 		case 4:
 			$('div.gameStatus div.pos-1').hide();
+			$('div.gameStatus div.pos-0').css('top',65).css('left', 425);
+			$('div.gameStatus div.pos-2').css('top',65).css('left', 125);
 			break;
 	}
 	
@@ -47,8 +49,25 @@ function refreshPlayersStatus(players){
 	for(var i=0; i < players.length; i++) {
 		var $plCtn = $('div.gameStatus div.pos-'+ players[i].position);
 		$('div.plName', $plCtn).text(players[i].name);
+		
 		//$('div.stolenCards', $plCtn).text(players[i].name);
-		//$('div.status', $plCtn).text(players[i].name);
+		
+		$('div#a').append('pl turn' + now.playerTurn);
+		if (players[i].position === now.playerTurn){
+			$('div.status', $plCtn).css('background-color', 'yellow');
+			
+			$('div.playerCard').bind('click', function(e){
+				var card = $(this).data('card');
+				now.dropCard(card.number, card.suit);
+			});
+			$('div#a').append('bindeo');
+		}
+		else {
+			$('div.status', $plCtn).css('background-color', '');
+			$('div.playerCard').unbind('click');
+			$('div#a').append('Desbindeo');
+		}
+		
 		if (players[i].droppedCard === null){}
 		else {
 			$('div.droppedCard', $plCtn).text(
@@ -61,12 +80,6 @@ function refreshPlayersStatus(players){
 			
 		if (now.sit === players[i].position)
 			showMyCards(players[i].handCards);
-		
-		//TODO: Check when is player turn
-		$('div.playerCard').bind('click', function(e){
-			var card = $(this).data('card');
-			now.dropCard(card.number, card.suit);
-		});
 	}
 }
 
@@ -114,10 +127,6 @@ function InitChat(){
 
 function SendToLogChat(who, msg){
 	now.sendChatMsg(who, msg);
-}
-
-function InitPresentation(){
-	
 }
 
 

@@ -1,4 +1,6 @@
-
+/**
+ * @author pjnovas
+ */
 
 var gameInstance = null;
 
@@ -7,46 +9,51 @@ var createGame = function(gmName, plAmm){
 		name: gmName,
 		playersAmm: plAmm
 	});	
-}
+};
 
 var getSitsAmmount = function () {
 	return gameInstance.playersAmm;
-}
+};
 
 var isGameActive = function(){
 	return (gameInstance !== null); 
-}
+};
 
 var joinPlayer = function(plName, position){
 	return gameInstance.joinPlayer(plName, position);
-}
+};
 
 var getPlayers = function(){
 	if (gameInstance !== null)
 		return gameInstance.players;
 	else return [];
-}
+};
 
 var dropCard = function(playerIdx, cardNbr, cardSuit){
-	//TODO: check if it is player turn
-	
-	for (var i=0; i<gameInstance.players.length; i++){
-		
-		var player = gameInstance.players[i];
-		if (playerIdx === player.position)
-			return player.dropCard(cardNbr, cardSuit);
+	if (gameInstance.playerTurn === playerIdx){
+		for (var i=0; i<gameInstance.players.length; i++){
+			
+			var player = gameInstance.players[i];
+			if (playerIdx === player.position)
+				return player.dropCard(cardNbr, cardSuit);
+		}
 	}
 	
 	return false;
-}
+};
+
+var getPlayerTurn = function (){
+	return 0;//gameInstance.playerTurn;	
+};
 
 exports.getSitsAmmount = getSitsAmmount;
 exports.createGame = createGame;
 exports.isGameActive = isGameActive;
 exports.joinPlayer = joinPlayer; 
-exports.getPlayers = getPlayers; 
+exports.getPlayers = getPlayers;
 
-exports.dropCard = dropCard; 
+exports.dropCard = dropCard;
+exports.getPlayerTurn = getPlayerTurn; 
 
 /**************************************************************************/
 /**************************************************************************/
@@ -61,7 +68,7 @@ var Game = function(params){
 	this.players = [];
 	
 	this.currentTrumpIdx = null;
-	this.playerTurn = null;
+	this.playerTurn = 0;
 }
 
 Game.prototype.startGame = function(){
@@ -145,24 +152,14 @@ Player.prototype.dropCard = function (cardNbr, cardSuit){
 		var aCard = this.handCards[i];
 		if (cardNbr === aCard.number && cardSuit === aCard.suit){
 			this.droppedCard = aCard;
-			//this.handCards.splice()
+			this.handCards.splice(i, 1);
 			return true;	
 		}
 	}
 	
 	return false;
 }
-/*
-Player.prototype.SortHand = function(){
-	this.handCards.sort(function (a, b) { 
-		var diff = $.inArray(a.suit, Suit) - $.inArray(b.suit, Suit);
-		if (diff === 0)
-			diff = $.inArray(a.number, CardNumbers) - $.inArray(b.number, CardNumbers);
-		
-		return diff;
-	});
-}
-*/
+
 Player.prototype.GetHandCards = function(){
 	//this.SortHand();
 	return this.handCards;
@@ -172,6 +169,7 @@ Player.prototype.GetHandCards = function(){
 
 function Dealer(){
 	this.deck = new Deck();	
+	this.currentTrumpIdx = 0; 
 }
 
 Dealer.prototype.ShuffleDeck = function () {
@@ -200,6 +198,11 @@ Dealer.prototype.Deal = function(players){
 	
 	for (var i=0; i< cL; i++){
 		var cardFlying = cards[i];
+		
+		if (maxPlayers === 3 && 
+			cardFlying.number === 2 && 
+			Suit[this.currentTrumpIdx] === cardFlying.suit)
+			continue;
 		
 		players[cPlayer++].AssignCard(cardFlying);
 		if (cPlayer === maxPlayers) cPlayer=0;

@@ -34,25 +34,27 @@ everyone.now.joinPlayer = function(){
 	var plName = this.now.name;
 	console.log('Player ' + plName + ' has joined');
 	
+	var gameStarted = tute.joinPlayer(plName, this.now.sit);
 	everyone.now.sendlog('Sistema','Ha ingresado ' + plName);
 	
-	var gameStarted = tute.joinPlayer(plName, this.now.sit);
-	everyone.now.updatePlayers(tute.getPlayers());
-	
 	if (gameStarted){
+		everyone.now.playerTurn = tute.getPlayerTurn();
+		
 		console.log('game started');
 		everyone.now.sendlog('Sistema','Juego Iniciado!');
 		//everyone.now.startGame();
 	}
+	
+	everyone.now.updatePlayers(tute.getPlayers());
 };
 
 everyone.now.dropCard = function(cardNbr, cardSuit){
 	var wasDropped = tute.dropCard(this.now.sit, cardNbr, cardSuit);
 	if (wasDropped){
 		everyone.now.updatePlayers(tute.getPlayers());
-		everyone.now.sendlog(this.now.name,'Tiro carta ' + cardNbr + ' de ' + cardSuit);		
+		everyone.now.sendlog(this.now.name, 'Tiro carta ' + cardNbr + ' de ' + cardSuit);
 	}
-}
+};
 
 everyone.now.sendChatMsg = function(who, msg){
 	everyone.now.sendlog(who, msg);
