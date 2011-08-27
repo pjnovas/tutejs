@@ -1,3 +1,5 @@
+
+
 /**
  * @author pjnovas
  */
@@ -21,37 +23,36 @@ var currentServer = server.startServer(router.route, handle);
 var everyone = nowjs.initialize(currentServer);
 console.log("NowJs Initialized");
 
-
-nowjs.on('connect', function(){
+nowjs.on('connect', function() {
 	//TODO: checkout if the player is already connected.
 	everyone.now.qpl = tute.getSitsAmmount();
-	 
+
 	this.now.updatePlayers(tute.getPlayers(), null);
 	this.now.startScreeen();
 });
 
-everyone.now.joinPlayer = function(){
+everyone.now.joinPlayer = function() {
 	var plName = this.now.name;
 	console.log('Player ' + plName + ' has joined');
-	
+
 	var gameStarted = tute.joinPlayer(plName, this.now.sit);
-	everyone.now.sendlog('Sistema','Ha ingresado ' + plName);
+	everyone.now.sendlog('Sistema', 'Ha ingresado ' + plName);
 	var plTurn = null;
-	
-	if (gameStarted){
+
+	if(gameStarted) {
 		plTurn = tute.getPlayerSit();
 		//console.log('player turn: ' + tute.getPlayerSit());
 		//everyone.now.playerTurn = tute.getPlayerSit();
-		everyone.now.sendlog('Sistema','Juego Iniciado!');
+		everyone.now.sendlog('Sistema', 'Juego Iniciado!');
 		//everyone.now.startGame();
 	}
-	
+
 	everyone.now.updatePlayers(tute.getPlayers(), plTurn);
 };
 
-everyone.now.dropCard = function(cardNbr, cardSuit){
+everyone.now.dropCard = function(cardNbr, cardSuit) {
 	var wasDropped = tute.dropCard(this.now.sit, cardNbr, cardSuit);
-	if (wasDropped){
+	if(wasDropped) {
 		//everyone.now.playerTurn = tute.getPlayerSit();
 		//console.log('----------------------------- player t: ' + everyone.now.playerTurn);
 		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
@@ -59,10 +60,6 @@ everyone.now.dropCard = function(cardNbr, cardSuit){
 	}
 };
 
-everyone.now.sendChatMsg = function(who, msg){
+everyone.now.sendChatMsg = function(who, msg) {
 	everyone.now.sendlog(who, msg);
 };
-
-
-
-

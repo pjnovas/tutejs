@@ -45,17 +45,18 @@ function refreshPlayersStatus(players, plTurn){
 		var $plCtn = $('div.gameStatus div.pos-'+ players[i].position);
 		$('div.plName', $plCtn).text(players[i].name);
 		
-		//$('div.stolenCards', $plCtn).text(players[i].name);
-		
-		$('div#a').append('<br/> pl turn ' + plTurn);
-		if (players[i].position === plTurn){
+		if (players[i].stolenCards.length > 0){
+			$('div.stolenCards', $plCtn).text('XX');
+			$('div.status', $plCtn).text(players[i].stolenPoints);
+		}
+
+		//$('div#a').append('<br/> pl turn ' + plTurn);
+		if (players[i].position === plTurn)
 			$('div.status', $plCtn).css('background-color', 'yellow');
-		}
-		else {
-			$('div.status', $plCtn).css('background-color', '');
-		}
+		else $('div.status', $plCtn).css('background-color', '');
 		
-		if (players[i].droppedCard === null){}
+		if (players[i].droppedCard === null) 
+			$('div.droppedCard', $plCtn).text('');
 		else {
 			$('div.droppedCard', $plCtn).text(
 				players[i].droppedCard.number + ' de ' + players[i].droppedCard.suit  
@@ -101,12 +102,10 @@ function showMyCards(cards, plTurn){
 			var card = $(this).data('card');
 			now.dropCard(card.number, card.suit);
 		});
-		$('div#a').append(' bindeo ');
+		//$('div#a').append(' bindeo ');
 	}
-	else {
-		$('div.playerCard').unbind('click');
-		$('div#a').append(' desbindeo ');
-	}
+	else $('div.playerCard').unbind('click');
+		//$('div#a').append(' desbindeo ');
 }
 
 function InitChat(){
