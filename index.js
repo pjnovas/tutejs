@@ -48,10 +48,24 @@ everyone.now.joinPlayer = function() {
 };
 
 everyone.now.dropCard = function(cardNbr, cardSuit) {
-	var wasDropped = tute.dropCard(this.now.sit, cardNbr, cardSuit);
-	if(wasDropped) {
-		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+	var round = tute.dropCard(this.now.sit, cardNbr, cardSuit);
+	if(round.dropped) {
 		everyone.now.sendlog(this.now.name, 'Tiro carta ' + cardNbr + ' de ' + cardSuit);
+		
+		if (round.endRound){
+			//everyone.now.endRound(tute.getPlayers());
+			everyone.now.updatePlayers(tute.getPlayers(), null);
+			
+			function newRound(){
+				tute.nextRound();
+				everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+				everyone.now.sendlog('Sistema', 'Nueva mano');
+			}
+			
+			everyone.now.sendlog('Sistema', 'Fin de mano, inicio en 5 segundos');
+			setTimeout(newRound, 5000);
+		}
+		else everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
 	}
 };
 

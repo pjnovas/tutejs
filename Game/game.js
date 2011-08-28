@@ -40,14 +40,24 @@ var dropCard = function(playerSit, cardNbr, cardSuit){
 		var canDropCard = gameInstance.currentRound.canDropCard(player, cardToDrop);
 		if (canDropCard){
 			player.dropCard(cardToDrop);
-			var newRound = !gameInstance.moveTurn();
+			var endRound = !gameInstance.moveTurn();
 			
-			return true;
+			return {
+				endRound: endRound,
+				dropped: true
+			};
 		}
 	}
 
-	return false;
+	return {
+		endRound: false,
+		dropped: false
+	};
 };
+
+var nextRound = function(){
+	gameInstance.endRoundTurn();
+}
 
 var getPlayerSit = function (){
 	return gameInstance.players[gameInstance.playerTurn].position;	
@@ -60,6 +70,7 @@ exports.joinPlayer = joinPlayer;
 exports.getPlayers = getPlayers;
 
 exports.dropCard = dropCard;
+exports.nextRound = nextRound;
 exports.getPlayerSit = getPlayerSit; 
 
 /**************************************************************************/
@@ -79,6 +90,7 @@ var Game = function(params){
 	
 	this.rounds = [];
 	this.currentRound = null;
+	this.lastThiefIdx = null;
 }
 
 Game.prototype.startGame = function(){
@@ -131,7 +143,9 @@ Game.prototype.moveTurn = function(){
 	return roundMoved;
 }
 
-Game.prototype.endRoundTurn = function(plThiefIdx){
+Game.prototype.endRoundTurn = function(){
+	var plThiefIdx = this.lastThiefIdx;
+	
 	var cardsToSteal = [];
 	for(var i=0; i< this.players.length; i++){
 		var aStolenCard = this.players[i].droppedCard;
@@ -141,6 +155,7 @@ Game.prototype.endRoundTurn = function(plThiefIdx){
 
 	this.players[plThiefIdx].stealCards(cardsToSteal);
 	this.newRound(plThiefIdx);
+	
 }
 
 /****************************************************/
@@ -260,7 +275,7 @@ Round.prototype.move = function (plDroppedIdx, cardDropped){
 	if (this.roundIdx < this.roundtimes)
 		this.roundIdx++;
 	else {
-		this.game.endRoundTurn(this.plPriorCard);
+		this.game.lastThiefIdx = this.plPriorCard;
 		return false;
 	}
 	

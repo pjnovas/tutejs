@@ -36,11 +36,14 @@ $(document).ready(function(){
 	now.updatePlayers = function(players, sitTurn){		
 		refreshPlayersStatus(players, sitTurn);
 	};
+	
 	/*
-	now.endRound = function(thief){		
-		
+	now.endRound = function(players){		
+		refreshPlayersStatus(players, null);
+		//runEndRound(thief);
 	};
 	*/
+	
 	$('#txtChat').attr('disabled', false);
 });
 
