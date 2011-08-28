@@ -84,9 +84,9 @@ Game.prototype.startGame = function(){
 	else this.currentTrumpIdx++;
 	
 	var dealer = new Dealer(this.currentTrumpIdx);
-	dealer.Deal(this.players);	
+	this.playerTurn = dealer.Deal(this.players);	
 	
-	this.newRound(0);
+	this.newRound(this.playerTurn);
 } 
 
 Game.prototype.joinPlayer = function(name, pos){
@@ -264,6 +264,7 @@ Dealer.prototype.ShuffleDeck = function () {
 Dealer.prototype.Deal = function(players){
 	this.ShuffleDeck();
 	
+	var startPlayer = 0;
 	var cPlayer = 0;
 	var maxPlayers = players.length;
 	
@@ -275,12 +276,16 @@ Dealer.prototype.Deal = function(players){
 		
 		if (maxPlayers === 3 && 
 			cardFlying.number === 2 && 
-			Suit[this.currentTrumpIdx] === cardFlying.suit)
+			Suit[this.currentTrumpIdx] === cardFlying.suit){
+			startPlayer = cPlayer;
 			continue;
+		}
 		
 		players[cPlayer++].assignCard(cardFlying);
 		if (cPlayer === maxPlayers) cPlayer=0;
 	}	
+	
+	return startPlayer;
 }
 
 /****************************************************/
