@@ -238,7 +238,7 @@ Round.prototype.canDropCard = function (player, cardToDrop){
 					else return this.isCardInGroup(cardToDrop, cards);	
 				}
 				else{
-					return true;
+					return this.isCardInGroup(cardToDrop, cards);
 				}
 			}
 			else{

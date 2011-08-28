@@ -243,6 +243,10 @@ div.droppedCard {
 	height: 50px;
 	position: absolute;
 	
+	color: black;
+	font-size: 24px;
+	font-weight: bold;
+	
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
@@ -251,6 +255,18 @@ div.available:hover div.status{
 	background-color: green;
 	cursor: pointer;
 }
+
+div.tableCard{
+	background-color: white;
+	background-image: url('../images/trumps.png');
+	background-position:  0px 0px;
+	background-repeat: no-repeat;	
+}
+
+div.tableCard.oro   { background-position:  0px 20px; }
+div.tableCard.copa  { background-position:  -50px 20px; }
+div.tableCard.espada{ background-position:  -100px 20px; }
+div.tableCard.basto { background-position:  -150px 20px; }
 
 div.pos-0, div.pos-1, div.pos-2, div.pos-3, div.pos-4{
 	width: 170px;
@@ -392,8 +408,17 @@ div.pos-4 div.droppedCard{
 	left:0;	
 }
 
+div.playerCalls{
+	float:right;
+	width:600px;
+	margin-top: -30px;
+}
 
-
+div.playerCalls a{
+	float:right;
+	margin-right: 30px;
+	cursor:pointer;
+}
 
 
 

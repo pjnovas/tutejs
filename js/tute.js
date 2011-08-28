@@ -36,7 +36,11 @@ $(document).ready(function(){
 	now.updatePlayers = function(players, sitTurn){		
 		refreshPlayersStatus(players, sitTurn);
 	};
-	
+	/*
+	now.endRound = function(thief){		
+		
+	};
+	*/
 	$('#txtChat').attr('disabled', false);
 });
 
@@ -56,11 +60,13 @@ function refreshPlayersStatus(players, plTurn){
 		else $('div.status', $plCtn).css('background-color', '');
 		
 		if (players[i].droppedCard === null) 
-			$('div.droppedCard', $plCtn).text('');
+			$('div.droppedCard', $plCtn).text('').removeClass('tableCard')
+				.removeClass('oro').removeClass('copa')
+				.removeClass('espada').removeClass('basto');
 		else {
-			$('div.droppedCard', $plCtn).text(
-				players[i].droppedCard.number + ' de ' + players[i].droppedCard.suit  
-				);
+			$('div.droppedCard', $plCtn)
+				.text(players[i].droppedCard.number)
+				.addClass('tableCard').addClass(players[i].droppedCard.suit);
 		}
 		
 		if ($plCtn.hasClass('available'))
@@ -108,8 +114,10 @@ function showMyCards(cards, plTurn){
 
 function InitChat(){
 	now.sendlog = function(who, msg){
-		$('#console').append('<dt>&gt; ' + who + '</dt>:');
-		$('#console').append('<dd>' + msg + '</dd>');
+		var h = parseFloat($('#console').height());
+		$('#console').append('<dt>&gt; ' + who + '</dt>:')
+					.append('<dd>' + msg + '</dd>')
+					.scrollTop(h);
 	};
 	
 	var $txtChat = $('#txtChat'); 
