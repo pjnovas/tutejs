@@ -41,10 +41,7 @@ everyone.now.joinPlayer = function() {
 
 	if(gameStarted) {
 		plTurn = tute.getPlayerSit();
-		//console.log('player turn: ' + tute.getPlayerSit());
-		//everyone.now.playerTurn = tute.getPlayerSit();
 		everyone.now.sendlog('Sistema', 'Juego Iniciado!');
-		//everyone.now.startGame();
 	}
 
 	everyone.now.updatePlayers(tute.getPlayers(), plTurn);
@@ -53,8 +50,6 @@ everyone.now.joinPlayer = function() {
 everyone.now.dropCard = function(cardNbr, cardSuit) {
 	var wasDropped = tute.dropCard(this.now.sit, cardNbr, cardSuit);
 	if(wasDropped) {
-		//everyone.now.playerTurn = tute.getPlayerSit();
-		//console.log('----------------------------- player t: ' + everyone.now.playerTurn);
 		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
 		everyone.now.sendlog(this.now.name, 'Tiro carta ' + cardNbr + ' de ' + cardSuit);
 	}

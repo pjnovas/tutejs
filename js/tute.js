@@ -18,6 +18,7 @@ now.startScreeen = function(){
 	
 	now.name = prompt("Tu nombre?", "");
 	$('#conecting').hide();	
+	document.title = 'Tute.js - User: ' + now.name; 
 }
 	
 $(document).ready(function(){
@@ -50,7 +51,6 @@ function refreshPlayersStatus(players, plTurn){
 			$('div.status', $plCtn).text(players[i].stolenPoints);
 		}
 
-		//$('div#a').append('<br/> pl turn ' + plTurn);
 		if (players[i].position === plTurn)
 			$('div.status', $plCtn).css('background-color', 'yellow');
 		else $('div.status', $plCtn).css('background-color', '');
@@ -102,10 +102,8 @@ function showMyCards(cards, plTurn){
 			var card = $(this).data('card');
 			now.dropCard(card.number, card.suit);
 		});
-		//$('div#a').append(' bindeo ');
 	}
 	else $('div.playerCard').unbind('click');
-		//$('div#a').append(' desbindeo ');
 }
 
 function InitChat(){

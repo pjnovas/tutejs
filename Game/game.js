@@ -70,6 +70,8 @@ var Game = function(params){
 	
 	this.currentTrumpIdx = null;
 	this.playerTurn = null;
+	
+	this.rounds = [];
 	this.currentRound = null;
 }
 
@@ -77,11 +79,11 @@ Game.prototype.startGame = function(){
 	
 	this.players.sort(function (a, b) { return a.position - b.position }); 
 	
-	if (this.currentTrumpIdx === null || this.currentTrumpIdx == 4)
+	if (this.currentTrumpIdx === null || this.currentTrumpIdx === 4)
 		this.currentTrumpIdx = 0;
 	else this.currentTrumpIdx++;
 	
-	var dealer = new Dealer();
+	var dealer = new Dealer(this.currentTrumpIdx);
 	dealer.Deal(this.players);	
 	
 	this.newRound(0);
@@ -101,24 +103,10 @@ Game.prototype.joinPlayer = function(name, pos){
 }
 
 Game.prototype.newRound = function(playerStartIdx){
-	var me = this;
 	this.currentRound = null;
 	this.playerTurn = playerStartIdx; 
 	
-	function endRoundCallback(plThiefIdx){
-		var cardsToSteal = [];
-		for(var i=0; i<me.players.length; i++){
-			var aStolenCard = me.players[i].droppedCard;
-			cardsToSteal.push(aStolenCard);
-			me.players[i].droppedCard = null;
-		}
-		
-		me.players[plThiefIdx].stealCards(cardsToSteal);
-		
-		me.newRound(plThiefIdx);
-	}
-	
-	this.currentRound = new Round(this.playerTurn, this.players.length, endRoundCallback);												
+	this.currentRound = new Round(this.playerTurn, this.players.length-1, this);												
 	this.currentRound.start(this.currentTrumpIdx);
 }
 
@@ -126,34 +114,36 @@ Game.prototype.moveTurn = function(){
 	var plIdx = this.playerTurn;
 	var droppedCard = this.players[this.playerTurn].droppedCard; 
 	
-	this.currentRound.move(plIdx, droppedCard);
+	var roundMoved = this.currentRound.move(plIdx, droppedCard);
 	
-	if (this.playerTurn === null || this.playerTurn === this.players.length - 1)
-		this.playerTurn = 0;
-	else this.playerTurn++;	
+	if (roundMoved){
+		if (this.playerTurn === this.players.length - 1)
+			this.playerTurn = 0;
+		else this.playerTurn++;	
+	}
 }
-/*
-Game.prototype.endRoundCallback = function(plThiefIdx){
+
+Game.prototype.endRoundTurn = function(plThiefIdx){
 	var cardsToSteal = [];
-	for(var i=0; i<this.players.length; i++){
+	for(var i=0; i< this.players.length; i++){
 		var aStolenCard = this.players[i].droppedCard;
 		cardsToSteal.push(aStolenCard);
 		this.players[i].droppedCard = null;
 	}
-	
+
 	this.players[plThiefIdx].stealCards(cardsToSteal);
-	
 	this.newRound(plThiefIdx);
 }
-*/
+
 /****************************************************/
 
-function Round(plStartIdx, times, callbackEnd){
-	this.endRound = callbackEnd;
+function Round(plStartIdx, times, game){
+	this.game = game;
 	this.roundtimes = times;
 	
 	this.droppedCards = [];
 	this.plPriorCard = plStartIdx;
+	this.trumpIdx = null;
 }
 
 Round.prototype.start = function (currTrumpIdx){
@@ -164,6 +154,7 @@ Round.prototype.start = function (currTrumpIdx){
 
 Round.prototype.move = function (plDroppedIdx, cardDropped){
 	this.droppedCards.push(cardDropped);
+
 	if (this.isLastCardPrior())	{
 		this.priorCardIdx = this.droppedCards.length - 1;
 		this.plPriorCard = plDroppedIdx;
@@ -171,13 +162,18 @@ Round.prototype.move = function (plDroppedIdx, cardDropped){
 	
 	if (this.roundIdx < this.roundtimes)
 		this.roundIdx++;
-	else this.endRound(this.plPriorCard);
+	else {
+		this.game.endRoundTurn(this.plPriorCard);
+		return false;
+	}
+	
+	return true;
 }
 
 Round.prototype.isLastCardPrior = function (){
-	
+	var me = this;
 	function isTrump(card){ 
-		return (card.suit === Suit[this.trumpIdx]);
+		return (card.suit === Suit[me.trumpIdx]);
 	}
 	
 	function areSameSuit(cardA, cardB){
@@ -185,15 +181,14 @@ Round.prototype.isLastCardPrior = function (){
 	}
 	
 	function isAHigher(cardA, cardB){
-		return (cardA.value > cardB.value);
+		return (CardNumbers.indexOf(cardA.number) < CardNumbers.indexOf(cardB.number));
 	}
 	
 	var currPrior = this.droppedCards[this.priorCardIdx];
 	var card = this.droppedCards[this.droppedCards.length - 1];
 	
-	if (areSameSuit(currPrior, card)){
+	if (areSameSuit(currPrior, card))
 		return isAHigher(card, currPrior);
-	}
 	else return isTrump(card);
 }
 
@@ -246,9 +241,9 @@ Player.prototype.calculatePoints = function (){
 
 /****************************************************/
 
-function Dealer(){
+function Dealer(trumpIdx){
 	this.deck = new Deck();	
-	this.currentTrumpIdx = 0; 
+	this.currentTrumpIdx = trumpIdx; 
 }
 
 Dealer.prototype.ShuffleDeck = function () {
@@ -312,8 +307,9 @@ function DeckCard(suit, number){
 	this.number = number;
 	this.suit = suit;
 	
+	var me = this;
 	function getValue () {
-		switch(this.number){
+		switch(me.number){
 			case 1: return 11;
 			case 3: return 10;
 			case 12: return 4;
