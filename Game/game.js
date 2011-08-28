@@ -34,10 +34,16 @@ var dropCard = function(playerSit, cardNbr, cardSuit){
 	var player = gameInstance.players[gameInstance.playerTurn];
 	
 	if (player.position === playerSit){
-		var dropped = player.dropCard(cardNbr, cardSuit);
-		if (dropped)
-			gameInstance.moveTurn();
-		return dropped;
+		var cardToDrop = player.getHandCard(cardNbr, cardSuit);
+		if (cardToDrop === null) return false;
+		
+		var canDropCard = gameInstance.currentRound.canDropCard(player, cardToDrop);
+		if (canDropCard){
+			player.dropCard(cardToDrop);
+			var newRound = !gameInstance.moveTurn();
+			
+			return true;
+		}
 	}
 
 	return false;
@@ -121,6 +127,8 @@ Game.prototype.moveTurn = function(){
 			this.playerTurn = 0;
 		else this.playerTurn++;	
 	}
+	
+	return roundMoved;
 }
 
 Game.prototype.endRoundTurn = function(plThiefIdx){
@@ -152,10 +160,99 @@ Round.prototype.start = function (currTrumpIdx){
 	this.trumpIdx = currTrumpIdx;
 }
 
+Round.prototype.canDropCard = function (player, cardToDrop){
+	//first player
+	if (this.droppedCards.length === 0)
+		return true;
+	
+	//player has same suit than first?
+	//Yes
+		//Is prior trump?
+		//Yes
+			//Is first trump?
+			//Yes
+				//Check if card is bigger than Prior -> B	
+			//No
+				//Check if card is the same suit as first -> A
+		//No
+			//Check if card is bigger than Prior -> B
+	//No
+		//Is first trump?
+		//Yes
+			//return true 
+		//No
+			//player has trump? -> A with trump suit
+			//Yes
+				//Is prior trump?
+				//Yes
+					//Check if card is bigger than prior -> B
+				//No
+					//Check if card is any of players trumps -> A with trump suit 
+			//No
+				//return true
+		
+	/***************************************************************************************/
+	
+	var priorCard = this.droppedCards[this.priorCardIdx];
+	var firstCard = this.droppedCards[0];
+	var isPriorTrump = Deck.isTrump(priorCard, this.trumpIdx);
+	var isFirstTrump = Deck.isTrump(firstCard, this.trumpIdx);
+	
+	var cards = null;
+	
+	var cards = this.getSuitCards(player, firstCard.suit);
+	if (cards.length > 0){
+		if (isPriorTrump){
+			if (isFirstTrump){
+				var cardsPrior = this.getBiggerCards(player, priorCard);
+				if (cardsPrior.length > 0){
+					return this.isCardInGroup(cardToDrop, cardsPrior);	
+				}
+				else return this.isCardInGroup(cardToDrop, cards);	
+			}
+			else{
+				cards = this.getSuitCards(player, firstCard.suit);
+				return this.isCardInGroup(cardToDrop, cards);
+			}
+		}
+		else{
+			var cardsPrior = this.getBiggerCards(player, priorCard);
+			if (cardsPrior.length > 0){
+				return this.isCardInGroup(cardToDrop, cardsPrior);	
+			}
+			else return this.isCardInGroup(cardToDrop, cards);	
+		}
+	}
+	else {
+		if (isFirstTrump){
+			return true;
+		}
+		else{
+			cards = this.getSuitCards(player, Suit[this.trumpIdx]);
+			if (cards.length > 0){
+				if (isPriorTrump){
+					var cardsPrior = this.getBiggerCards(player, priorCard);
+					if (cardsPrior.length > 0){
+						return this.isCardInGroup(cardToDrop, cardsPrior);	
+					}
+					else return this.isCardInGroup(cardToDrop, cards);	
+				}
+				else{
+					return true;
+				}
+			}
+			else{
+				return true;
+			}
+		}
+	}
+}
+
 Round.prototype.move = function (plDroppedIdx, cardDropped){
 	this.droppedCards.push(cardDropped);
+	var currPrior = this.droppedCards[this.priorCardIdx];
 
-	if (this.isLastCardPrior())	{
+	if (this.isCardPrior(cardDropped, currPrior)) {
 		this.priorCardIdx = this.droppedCards.length - 1;
 		this.plPriorCard = plDroppedIdx;
 	}
@@ -170,26 +267,47 @@ Round.prototype.move = function (plDroppedIdx, cardDropped){
 	return true;
 }
 
-Round.prototype.isLastCardPrior = function (){
-	var me = this;
-	function isTrump(card){ 
-		return (card.suit === Suit[me.trumpIdx]);
+Round.prototype.isCardPrior = function (card, prior){
+	if (Deck.areSameSuit(prior, card))
+		return Deck.isAHigher(card, prior);
+	else return Deck.isTrump(card, this.trumpIdx);
+}
+
+Round.prototype.getBiggerCards = function (player, prior){
+	var posibleCards = [];
+	
+	for (var i=0; i< player.handCards.length; i++){
+		var aCard = player.handCards[i];
+		
+		if (Deck.areSameSuit(aCard, prior) && Deck.isAHigher(aCard, prior))
+			posibleCards.push(aCard);
 	}
 	
-	function areSameSuit(cardA, cardB){
-		return (cardA.suit === cardB.suit);
+	return posibleCards;
+}
+
+Round.prototype.getSuitCards = function (player, suit){
+	var posibleCards = [];
+	
+	for (var i=0; i< player.handCards.length; i++){
+		var aCard = player.handCards[i];
+		
+		if (aCard.suit === suit)
+			posibleCards.push(aCard);
 	}
 	
-	function isAHigher(cardA, cardB){
-		return (CardNumbers.indexOf(cardA.number) < CardNumbers.indexOf(cardB.number));
+	return posibleCards;
+}
+
+Round.prototype.isCardInGroup = function (card, group){
+	if (group.length === 0)
+		return false;
+	
+	for (var i=0; i< group.length; i++){
+		if(card.number === group[i].number && card.suit === group[i].suit)
+			return true;
 	}
-	
-	var currPrior = this.droppedCards[this.priorCardIdx];
-	var card = this.droppedCards[this.droppedCards.length - 1];
-	
-	if (areSameSuit(currPrior, card))
-		return isAHigher(card, currPrior);
-	else return isTrump(card);
+	return false;
 }
 
 /****************************************************/
@@ -207,20 +325,26 @@ Player.prototype.assignCard = function (aCard){
 	this.handCards.push(aCard);
 }
 
-Player.prototype.dropCard = function (cardNbr, cardSuit){
+Player.prototype.getHandCard = function (cardNbr, cardSuit){
 	for (var i=0; i< this.handCards.length; i++){
 		var aCard = this.handCards[i];
 		if (cardNbr === aCard.number && cardSuit === aCard.suit){
-			
-			//TODO: Validate if card can be dropped
-			
-			this.droppedCard = aCard;
-			this.handCards.splice(i, 1);
-			return true;
+			return aCard;
 		}
 	}
 	
-	return false;
+	return null;
+}
+
+Player.prototype.dropCard = function (aCard){
+	for (var i=0; i< this.handCards.length; i++){
+		var c = this.handCards[i];
+		if (aCard.number === c.number && aCard.suit === c.suit){
+			this.droppedCard = c;
+			this.handCards.splice(i, 1);
+			return;
+		}
+	}
 }
 
 Player.prototype.stealCards = function (cards){
@@ -304,6 +428,18 @@ Deck.prototype.BuildDeck = function(){
 		}
 	}
 	
+}
+
+Deck.isTrump = function(card, trumpIdx){ 
+	return (card.suit === Suit[trumpIdx]);
+}
+	
+Deck.areSameSuit = function(cardA, cardB){
+	return (cardA.suit === cardB.suit);
+}
+
+Deck.isAHigher = function(cardA, cardB){
+	return (CardNumbers.indexOf(cardA.number) < CardNumbers.indexOf(cardB.number));
 }
 
 /****************************************************/
