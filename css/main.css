@@ -167,7 +167,7 @@ input#txtChat{
 div.gameStatus {
 	position:relative;
 	width:700px;
-	height:450px;
+	height:410px;
 }
 
 /* Table - Player Positions *************************************************/
@@ -410,14 +410,15 @@ div.pos-4 div.droppedCard{
 
 div.playerCalls{
 	float:right;
-	width:600px;
-	margin-top: -30px;
+	width:690px;
+	position: relative;
+	height: 30px;
 }
 
-div.playerCalls a{
-	float:right;
+div.playerCalls a {
+	float: right;
 	margin-right: 30px;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 

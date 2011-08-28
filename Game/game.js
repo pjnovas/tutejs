@@ -56,12 +56,53 @@ var dropCard = function(playerSit, cardNbr, cardSuit){
 };
 
 var nextRound = function(){
-	gameInstance.endRoundTurn();
+	return gameInstance.endRoundTurn();
 }
 
 var getPlayerSit = function (){
 	return gameInstance.players[gameInstance.playerTurn].position;	
 };
+/*
+var getPlayerWinnerName = function(){
+	gameInstance.endRoundTurn();
+}
+*/
+var newGame = function(){
+	for(var i=0; i< gameInstance.players.length; i++){
+		gameInstance.players[i].clear();
+	}
+	
+	gameInstance.startGame();
+}
+
+var call20s = function(){
+	var player = gameInstance.players[gameInstance.playerTurn];
+	if (player.canCall.t20){
+		player.called.t20 = true;
+		player.calculatePoints();
+		return true;
+	}
+	return false;
+}
+
+var call40s = function(){
+	var player = gameInstance.players[gameInstance.playerTurn];
+	if (player.canCall.t40){
+		player.called.t40 = true;
+		player.calculatePoints();
+		return true;
+	}
+	return false;
+}
+
+var callTute = function(){
+	var player = gameInstance.players[gameInstance.playerTurn];
+	if (player.canCall.tute){
+		player.called.tute = true;
+		return true;
+	}
+	return false;
+}
 
 exports.getSitsAmmount = getSitsAmmount;
 exports.createGame = createGame;
@@ -71,7 +112,13 @@ exports.getPlayers = getPlayers;
 
 exports.dropCard = dropCard;
 exports.nextRound = nextRound;
-exports.getPlayerSit = getPlayerSit; 
+//exports.getPlayerWinnerName = getPlayerWinnerName;
+exports.newGame = newGame;
+exports.getPlayerSit = getPlayerSit;
+
+exports.call20s = call20s;
+exports.call40s = call40s;
+exports.callTute = callTute; 
 
 /**************************************************************************/
 /**************************************************************************/
@@ -151,13 +198,32 @@ Game.prototype.endRoundTurn = function(){
 		var aStolenCard = this.players[i].droppedCard;
 		cardsToSteal.push(aStolenCard);
 		this.players[i].droppedCard = null;
+		this.players[i].cannotDoCalls();
 	}
 
 	this.players[plThiefIdx].stealCards(cardsToSteal);
-	this.newRound(plThiefIdx);
+	this.players[plThiefIdx].canDoCalls(this.currentTrumpIdx);
+
+	if (this.players[plThiefIdx].handCards.length === 0){
+		this.players[plThiefIdx].lastSteal = true;
+		this.players[plThiefIdx].calculatePoints();
+		return true;
+	}
 	
+	this.newRound(plThiefIdx);
+	return false;
 }
 
+/*
+Game.prototype.getPlayerWinner = function(){
+	var player = this.players[0];
+	for(var i=0; i< this.players.length; i++){
+		this.players[i].stolenPoints
+	}
+	
+	return player;
+}
+*/
 /****************************************************/
 
 function Round(plStartIdx, times, game){
@@ -334,6 +400,19 @@ function Player(name, pos){
 	this.droppedCard = null;
 	this.stolenCards = [];
 	this.stolenPoints = 0;
+	this.lastSteal = false;
+	
+	this.canCall = {
+		't20': false,
+		't40': false,
+		'Tute': false
+		};
+	
+	this.called = {
+		't20': false,
+		't40': false,
+		'Tute': false
+	};
 }
 
 Player.prototype.assignCard = function (aCard){
@@ -372,11 +451,81 @@ Player.prototype.stealCards = function (cards){
 
 Player.prototype.calculatePoints = function (){
 	this.stolenPoints = 0;
+	
 	for (var i=0; i< this.stolenCards.length; i++){
 		var card = this.stolenCards[i];
 		this.stolenPoints += card.value;
 	}
+	
+	if(this.called.t20)
+		this.stolenPoints += 20;
+	
+	if(this.called.t40)
+		this.stolenPoints += 40;
+		
+	if (this.lastSteal)
+		this.stolenPoints += 10;
 }
+
+Player.prototype.canDoCalls = function (trumpIdx){
+	
+	this.canCall = {
+		't20': false,
+		't40': false,
+		'Tute': false
+		};
+		
+	var tuteCount = 0;
+	for (var i=0; i< this.handCards.length; i++){
+		var c = this.handCards[i];
+		if (c.number === 12){
+			tuteCount++;
+			
+			for(var j=0; j< this.handCards.length; j++){
+				var c2 = this.handCards[j];
+				if (c2.number === 11 && c.suit === c2.suit){
+					if (c2.suit === Suit[trumpIdx])
+						this.canCall.t40 = true;
+					else this.canCall.t20 = true;
+				}
+			}
+			
+		}
+	}
+	
+	if (tuteCount === 4)
+		this.canCall.tute = true;
+}
+
+Player.prototype.cannotDoCalls = function (){
+	this.canCall = {
+		't20': false,
+		't40': false,
+		'Tute': false
+		};
+}
+
+Player.prototype.clear = function (){
+	this.handCards = [];
+	this.droppedCard = null;
+	this.stolenCards = [];
+	this.stolenPoints = 0;
+	this.lastSteal = false;
+	
+	this.canCall = {
+		't20': false,
+		't40': false,
+		'Tute': false
+		};
+	
+	this.called = {
+		't20': false,
+		't40': false,
+		'Tute': false
+	};
+}
+
+
 
 /****************************************************/
 

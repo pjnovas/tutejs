@@ -48,14 +48,23 @@ $(document).ready(function(){
 });
 
 function refreshPlayersStatus(players, plTurn){
-	
+	$('#call20s, #call40s, #callTute').hide();
+			
 	for(var i=0; i < players.length; i++) {
 		var $plCtn = $('div.gameStatus div.pos-'+ players[i].position);
 		$('div.plName', $plCtn).text(players[i].name);
 		
 		if (players[i].stolenCards.length > 0){
-			$('div.stolenCards', $plCtn).text('XX');
+			var statusTxt = 'XX';
+			if (players[i].called.t20) statusTxt += ' 20';
+			if (players[i].called.t40) statusTxt += ' 40';
+			
+			$('div.stolenCards', $plCtn).text(statusTxt);
 			$('div.status', $plCtn).text(players[i].stolenPoints);
+		}
+		else {
+			$('div.stolenCards', $plCtn).text('');
+			$('div.status', $plCtn).text('');
 		}
 
 		if (players[i].position === plTurn)
@@ -75,8 +84,26 @@ function refreshPlayersStatus(players, plTurn){
 		if ($plCtn.hasClass('available'))
 			$plCtn.removeClass('available').unbind('click');
 			
-		if (now.sit === players[i].position)
+		if (now.sit === players[i].position){
 			showMyCards(players[i].handCards, plTurn);
+			
+			if (now.sit === plTurn){
+				if (players[i].canCall.t20 && !players[i].called.t20) 
+					$('#call20s').show().bind('click',function(){
+										now.call20s();
+									});
+					
+				if (players[i].canCall.t40 && !players[i].called.t40) 
+					$('#call40s').show().bind('click',function(){
+										now.call40s();
+									});
+									
+				if (players[i].canCall.tute) 
+					$('#callTute').show().bind('click',function(){
+										now.callTute();
+									});
+			}
+		}
 	}
 }
 
@@ -117,7 +144,7 @@ function showMyCards(cards, plTurn){
 
 function InitChat(){
 	now.sendlog = function(who, msg){
-		var h = parseFloat($('#console').height());
+		var h = parseFloat($('#console').attr('scrollHeight')) + 90000;
 		$('#console').append('<dt>&gt; ' + who + '</dt>:')
 					.append('<dd>' + msg + '</dd>')
 					.scrollTop(h);

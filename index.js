@@ -57,15 +57,52 @@ everyone.now.dropCard = function(cardNbr, cardSuit) {
 			everyone.now.updatePlayers(tute.getPlayers(), null);
 			
 			function newRound(){
-				tute.nextRound();
+				var finished = tute.nextRound();
 				everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
-				everyone.now.sendlog('Sistema', 'Nueva mano');
+				
+				if (finished){
+					//var winner = tute.getPlayerWinnerName(); 
+					everyone.now.sendlog('Sistema', 'Juego Finalizado '); // - Ganador: ' + winner);
+					
+					function startNewGame(){
+						tute.newGame();
+						everyone.now.sendlog('Sistema', 'Juego Iniciado!');
+						everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+					}
+					
+					everyone.now.sendlog('Sistema', 'Nueva Partida en 15 segundos ...');
+					setTimeout(startNewGame, 15000);
+				}
+				else everyone.now.sendlog('Sistema', 'Nueva mano');
 			}
 			
 			everyone.now.sendlog('Sistema', 'Fin de mano, inicio en 5 segundos');
 			setTimeout(newRound, 5000);
 		}
 		else everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+	}
+};
+	
+everyone.now.call20s = function() {
+	var isValid = tute.call20s();
+	if (isValid){
+		everyone.now.sendlog(this.now.name, 'Canto las 20 en XXX'); //+ suit);
+		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+	}
+};
+everyone.now.call40s = function() {
+	var isValid = tute.call20s();
+	if (isValid){
+		everyone.now.sendlog(this.now.name, 'Canto las 40');
+		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+	}
+};
+everyone.now.callTute = function() {
+	var isValid = tute.callTute();
+	if (isValid){
+		everyone.now.sendlog(this.now.name, 'Canto TUTE');
+		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+		//TODO: finish game
 	}
 };
 
