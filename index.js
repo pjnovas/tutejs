@@ -16,6 +16,7 @@ handle["/play"] = requestHandlers.play;
 handle["/playTest"] = requestHandlers.playTest;
 handle["/home"] = requestHandlers.home;
 handle["/create"] = requestHandlers.create;
+handle["/reset"] = requestHandlers.reset;
 handle["/createGame"] = requestHandlers.createGame;
 
 var currentServer = server.startServer(router.route, handle);

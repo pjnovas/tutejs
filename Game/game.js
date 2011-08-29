@@ -11,6 +11,10 @@ var createGame = function(gmName, plAmm){
 	});	
 };
 
+var resetGame = function(){
+	gameInstance = null;	
+};
+
 var getSitsAmmount = function () {
 	return gameInstance.playersAmm;
 };
@@ -109,6 +113,7 @@ var callTute = function(){
 
 exports.getSitsAmmount = getSitsAmmount;
 exports.createGame = createGame;
+exports.resetGame = resetGame;
 exports.isGameActive = isGameActive;
 exports.joinPlayer = joinPlayer; 
 exports.getPlayers = getPlayers;

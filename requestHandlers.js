@@ -13,6 +13,11 @@ function create(response, postData) {
 	response.end(createPage);
 }
 
+function reset(response, postData) {
+	tute.resetGame();
+	redirect(response, '/create');
+}
+
 function createGame(response, postData) {
 	
 	tute.createGame(
@@ -47,6 +52,7 @@ function redirect(response, url){
 exports.home = home;
 exports.play = play;
 exports.create = create;
+exports.reset = reset;
 exports.createGame = createGame;
 exports.playTest = playTest;
 
