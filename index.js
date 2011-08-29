@@ -65,9 +65,10 @@ everyone.now.dropCard = function(cardNbr, cardSuit) {
 					everyone.now.sendlog('Sistema', 'Juego Finalizado '); // - Ganador: ' + winner);
 					
 					function startNewGame(){
-						tute.newGame();
+						var newTrump = tute.newGame();
 						everyone.now.sendlog('Sistema', 'Juego Iniciado!');
 						everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());
+						everyone.now.changeTrump(newTrump);
 					}
 					
 					everyone.now.sendlog('Sistema', 'Nueva Partida en 15 segundos ...');
@@ -91,7 +92,7 @@ everyone.now.call20s = function() {
 	}
 };
 everyone.now.call40s = function() {
-	var isValid = tute.call20s();
+	var isValid = tute.call40s();
 	if (isValid){
 		everyone.now.sendlog(this.now.name, 'Canto las 40');
 		everyone.now.updatePlayers(tute.getPlayers(), tute.getPlayerSit());

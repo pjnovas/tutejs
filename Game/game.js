@@ -62,17 +62,20 @@ var nextRound = function(){
 var getPlayerSit = function (){
 	return gameInstance.players[gameInstance.playerTurn].position;	
 };
+
 /*
 var getPlayerWinnerName = function(){
 	gameInstance.endRoundTurn();
 }
 */
+
 var newGame = function(){
 	for(var i=0; i< gameInstance.players.length; i++){
 		gameInstance.players[i].clear();
 	}
 	
 	gameInstance.startGame();
+	return Suit[gameInstance.currentTrumpIdx];
 }
 
 var call20s = function(){

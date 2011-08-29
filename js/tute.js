@@ -37,6 +37,10 @@ $(document).ready(function(){
 		refreshPlayersStatus(players, sitTurn);
 	};
 	
+	now.changeTrump = function(suit){		
+		$('div.trump').attr('class','').addClass('trump').addClass('trump-' + suit);
+	};
+	
 	/*
 	now.endRound = function(players){		
 		refreshPlayersStatus(players, null);
@@ -144,7 +148,7 @@ function showMyCards(cards, plTurn){
 
 function InitChat(){
 	now.sendlog = function(who, msg){
-		var h = parseFloat($('#console').attr('scrollHeight')) + 90000;
+		var h = parseFloat($('#console').height()) + 90000;
 		$('#console').append('<dt>&gt; ' + who + '</dt>:')
 					.append('<dd>' + msg + '</dd>')
 					.scrollTop(h);
