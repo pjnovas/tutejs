@@ -59,11 +59,13 @@ function refreshPlayersStatus(players, plTurn){
 		$('div.plName', $plCtn).text(players[i].name);
 		
 		if (players[i].stolenCards.length > 0){
-			var statusTxt = 'XX';
-			if (players[i].called.t20) statusTxt += ' 20';
-			if (players[i].called.t40) statusTxt += ' 40';
 			
-			$('div.stolenCards', $plCtn).text(statusTxt);
+			$('div.stolenCards', $plCtn).removeClass().addClass('stolenCards');
+			
+			if (players[i].called.t40) $('div.stolenCards', $plCtn).addClass('deck40s');
+			else if (players[i].called.t20) $('div.stolenCards', $plCtn).addClass('deck20s');
+			else $('div.stolenCards', $plCtn).addClass('deck');
+			
 			$('div.status', $plCtn).text(players[i].stolenPoints);
 		}
 		else {

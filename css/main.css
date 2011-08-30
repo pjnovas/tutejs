@@ -2,7 +2,8 @@ body
 {
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:18px;
-	color: #000;
+	color: #fff;
+	background-color: #451620;
 }
 
 div.playerHand{
@@ -115,9 +116,10 @@ h1{
 }
 
 div.left{
-	width:300px;
+	width:280px;
 	height:450px;
 	float:left;
+	margin-right: 20px;
 }
 
 div.right{
@@ -127,10 +129,15 @@ div.right{
 }
 
 div.bottom{
-	border:solid 1px gray;
 	width:1000px;
-	height:200px;
+	height:180px;
 	float:left;
+	background-color:#fff;
+	margin-top: 15px;
+	border:solid 2px silver;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 dl#console{
@@ -138,12 +145,13 @@ dl#console{
 	border:solid 2px #656565;
 	font-size:16px;
 	height: 370px;
-	width:296px;
+	width:276px;
 	overflow-y:auto;
 	overflow-x:hidden;
 	background-color:#ebebeb;
 	float:left;
 	margin:0;
+	color: #000;
 }
 
 dl#console dt {
@@ -158,23 +166,27 @@ dl#console dd {
 input#txtChat{
 	border: solid 2px #656565;
 	border-top: none;
-	width:300px;
+	width:280px;
 	background-color:#ebebeb;
 	font-size:16px;
 	height:30px;
 }
 
 div.gameStatus {
+	margin-top: 30px;
 	position:relative;
 	width:700px;
 	height:410px;
+	background:url('../images/carpet.png');
+	background-position:  0px 0px;
+	background-repeat: no-repeat;
 }
 
 /* Table - Player Positions *************************************************/
 
 div.trumpCtn {
 	position:absolute;
-	top: 10px;
+	top: 30px;
 	left: 40px;
 	width:130px;
 	height:50px;
@@ -203,11 +215,11 @@ div#tableGame {
 	background:url('../images/table.png');
 	background-position:0 0;
 	background-repeat: no-repeat;
-	width: 420px;
-	height:260px;
+	width: 520px;
+	height:310px;
 	position: absolute;
-	top:100px;
-	left:150px;
+	top:70px;
+	left:100px;
 	z-index: 1;
 }
 
@@ -221,6 +233,20 @@ div.stolenCards{
 	width:40px;
 	height: 40px;
 	position: absolute;
+	background-position:0 0;
+	background-repeat: no-repeat;
+}
+
+div.stolenCards.deck{
+	background:url('../images/backdeck.png');
+}
+
+div.stolenCards.deck20s{
+	background:url('../images/backdeck20.png');
+}
+
+div.stolenCards.deck40s{
+	background:url('../images/backdeck40.png');
 }
 
 div.status{
