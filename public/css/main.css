@@ -1,0 +1,531 @@
+body
+{
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:18px;
+	color: #fff;
+	background:url('../images/bg.png');
+	background-repeat:repeat;		
+}
+
+.card
+{
+	width:100px;
+	height:150px;
+	background:url('../images/cards-big.png');
+	background-repeat:no-repeat;		
+}
+
+.oro-1  { background-position:  0px 0px; }
+.oro-2  { background-position:  -100px 0px; }
+.oro-3  { background-position:  -200px 0px; }
+.oro-4  { background-position:  -300px 0px; }
+.oro-5  { background-position:  -400px 0px; }
+.oro-6  { background-position:  -500px 0px; }
+.oro-7  { background-position:  -600px 0px; }
+.oro-10 { background-position:  -700px 0px; }
+.oro-11 { background-position:  -800px 0px; }
+.oro-12 { background-position:  -900px 0px; }
+
+.copa-1  { background-position:  0px -150px; }
+.copa-2  { background-position:  -100px -150px; }
+.copa-3  { background-position:  -200px -150px; }
+.copa-4  { background-position:  -300px -150px; }
+.copa-5  { background-position:  -400px -150px; }
+.copa-6  { background-position:  -500px -150px; }
+.copa-7  { background-position:  -600px -150px; }
+.copa-10 { background-position:  -700px -150px; }
+.copa-11 { background-position:  -800px -150px; }
+.copa-12 { background-position:  -900px -150px; }
+
+.espada-1  { background-position:  0px -300px; }
+.espada-2  { background-position:  -100px -300px; }
+.espada-3  { background-position:  -200px -300px; }
+.espada-4  { background-position:  -300px -300px; }
+.espada-5  { background-position:  -400px -300px; }
+.espada-6  { background-position:  -500px -300px; }
+.espada-7  { background-position:  -600px -300px; }
+.espada-10 { background-position:  -700px -300px; }
+.espada-11 { background-position:  -800px -300px; }
+.espada-12 { background-position:  -900px -300px; }
+
+.basto-1  { background-position:  0px -450px; }
+.basto-2  { background-position:  -100px -450px; }
+.basto-3  { background-position:  -200px -450px; }
+.basto-4  { background-position:  -300px -450px; }
+.basto-5  { background-position:  -400px -450px; }
+.basto-6  { background-position:  -500px -450px; }
+.basto-7  { background-position:  -600px -450px; }
+.basto-10 { background-position:  -700px -450px; }
+.basto-11 { background-position:  -800px -450px; }
+.basto-12 { background-position:  -900px -450px; }
+
+
+
+/* CREATE ********************************************/
+
+form div{
+	float:left;
+	width: 100%;
+	margin: 20px;
+}
+
+/* PLAY ********************************************/
+
+h1{
+	font-family: Terminal, Verdana, Geneva, sans-serif;
+	font-size: 30px;
+	color: #1a8401;
+	margin:0;
+}
+
+div.mainCtn{
+	width: 500px;
+	margin: auto;
+}
+
+div.logoMain, div.logo{
+	width: 190px;
+	height: 95px;
+	background:url('../images/tileset.png');
+	background-position:  0px -245px;
+	background-repeat: no-repeat;
+}
+
+div.logo{
+	top:-20px;
+	left:0px;
+	position:absolute;
+}
+
+div.top{
+	width:800px;
+	height:335px;
+	margin: 0 auto;
+	position: relative;
+}
+
+div.bottom{
+	width:800px;
+	height:230px;
+	margin: 0 auto;
+}
+
+div.left{
+	width:200px;
+	height:225px;
+	float:left;
+	margin-right: 5px;
+}
+
+div.right{
+	width:590px;
+	height:225px;
+	float:left;
+	position: relative;
+}
+
+dl#console{
+	list-style:none;
+	font-size:14px;
+	height: 182px;
+	width:195px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	float:left;
+	margin:0;
+	color: #000;
+	
+	background-color: #a6a6a6;
+	border:solid 2px silver;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+dl#console dt {
+	font-weight: bold;
+	float:left;
+}
+
+dl#console dd {
+	float:none;
+}
+
+input#txtChat{
+	border-top: none;
+	width:195px;
+	font-size:14px;
+	height:25px;
+	
+	background-color: #a6a6a6;
+	border:solid 2px silver;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+div#sysMsg{
+	width:390px;
+	height:30px;
+	float: left;
+	font-size: 10pt;
+	line-height: 2.3;
+	padding-left: 20px;
+	background:url('../images/tileset.png');
+	background-repeat: no-repeat;
+	background-position:  -190px -320px;
+}
+
+div#callBtn{
+	width: 130px;
+	height: 35px;
+	float:right;
+	font-size: 16px;
+	line-height: 2;
+	padding-left: 20px;
+	cursor: pointer;
+	background:url('../images/tileset.png');
+	background-repeat: no-repeat;
+	background-position: 0px -210px;
+	position: absolute;
+	right: 30px;
+	top: 0px;
+	z-index: 2;
+}
+
+ul.playerCalls {
+	float:right;
+	width:116px;
+	position: relative;
+	height: 150px;
+	
+	background-color: #242424;
+	border: solid 1px #c7c7c7;
+	list-style: none;
+	padding: 0px;
+	position: absolute;
+	z-index: 1;
+	right: 57px;
+	top: 0px;
+	
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+ul.playerCalls li {
+	float: left;
+	width: 100%;
+	height:20px;
+	cursor: pointer;
+	font-size: 9pt;
+	border-top: solid 1px #c7c7c7;
+	line-height: 1.7;
+}
+
+ul.playerCalls li a{
+	margin-left: 5px;
+}
+
+ul.playerCalls li:hover {
+	background-color: #565656;
+	cursor: pointer;
+}
+
+div.hand {
+	width: 585px;
+	height: 175px;
+	background-color: #a6a6a6;
+	float: left;
+	border:solid 2px silver;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin-top: 8px;
+}
+
+div.playerHand{
+	float:right;
+	margin-right: 60px;
+}
+
+div.playerCard{
+	margin: 20px -60px 0 0;
+	float:left;
+}
+
+div.playerCard:hover{
+	margin-top: 0px;
+	cursor:pointer;
+}
+
+
+
+/* Table - Player Positions *************************************************/
+
+div.gameStatus {
+	margin-top: 30px;
+	position:relative;
+	width:800px;
+	height:335px;
+}
+
+div.trump{
+	position:absolute;
+	top: 265px;
+	left: 380px;	
+	width:50px;
+	height:50px;
+	z-index: 2;
+}
+
+div.trump.trump-oro, div.trump.trump-copa,
+div.trump.trump-espada, div.trump.trump-basto 
+{ 
+	background:url('../images/tileset.png');
+	background-repeat: no-repeat;
+}
+
+div.trump.trump-oro   { background-position:  -190px -270px; }
+div.trump.trump-copa  { background-position:  -240px -270px; }
+div.trump.trump-espada{ background-position:  -290px -270px; }
+div.trump.trump-basto { background-position:  -340px -270px; }
+
+div#tableGame {
+	background:url('../images/tileset.png');
+	background-position:-190px 0;
+	background-repeat: no-repeat;
+	width: 390px;
+	height: 260px;
+	position: absolute;
+	top:70px;
+	left:205px;
+	z-index: 1;
+}
+
+div.plName{
+	width:100%;
+	height:35px;
+	text-align:center;
+	float:left;
+	line-height: 2.2;
+	background:url('../images/tileset.png');
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	color: #fff;
+}
+
+div.sit.available div.plName{ background-position: 0px 0px; }
+div.sit.available:hover div.plName{ background-position: 0px -70px; cursor: pointer;}
+
+div.sit.out div.plName{ text-decoration: line-through; }
+div.sit.disconnected div.plName{ color: #717171; }
+
+div.plName.turn{ background-position: 0px -105px; }
+div.plName.winner{ background-position: 0px -70px; }
+div.plName.loser{ background-position: 0px -35px; }
+
+div.beans {
+	width: 40px;
+	height:35px;
+	float: left;
+}
+
+div.beans.bean1, div.beans.bean2,
+div.beans.bean3, div.beans.bean4 {
+	background:url('../images/tileset.png');
+	background-repeat:no-repeat;
+}
+
+div.beans.bean1 { background-position:  0px -140px; }
+div.beans.bean2 { background-position:  -40px -140px; }
+div.beans.bean3 { background-position:  -80px -140px; }
+div.beans.bean4 { background-position:  -120px -140px; }
+
+
+div.stolenCards{
+	width:40px;
+	height: 35px;
+	float: left;
+}
+
+div.stolenCards.deck1, div.stolenCards.deck2,
+div.stolenCards.deck3, div.stolenCards.deck4 {
+	background:url('../images/tileset.png');
+	background-repeat:no-repeat;
+}
+
+div.stolenCards.deck1  { background-position:  0px -175px; }
+div.stolenCards.deck2 { background-position:  -40px -175px; }
+div.stolenCards.deck3 { background-position:  -80px -175px; }
+div.stolenCards.deck4 { background-position:  -120px -175px; }
+
+div.status{
+	width: 80px;
+	height: 35px;
+	float:left;
+	color: #FFF;
+	line-height: 2.4;
+	text-align: center;
+}
+
+div.droppedCard {
+	border: solid 2px white;
+	width:50px;
+	height: 75px;
+	position: absolute;
+	
+	color: black;
+	font-size: 24px;
+	font-weight: bold;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.card-s {
+	width:40px;
+	height:60px;
+	background:url('../images/cards-small.png');
+	background-repeat:no-repeat;	
+}
+
+.s-oro-1  { background-position:  0px 0px; }
+.s-oro-2  { background-position:  -50px 0px; }
+.s-oro-3  { background-position:  -100px 0px; }
+.s-oro-4  { background-position:  -150px 0px; }
+.s-oro-5  { background-position:  -200px 0px; }
+.s-oro-6  { background-position:  -250px 0px; }
+.s-oro-7  { background-position:  -300px 0px; }
+.s-oro-10 { background-position:  -350px 0px; }
+.s-oro-11 { background-position:  -400px 0px; }
+.s-oro-12 { background-position:  -450px 0px; }
+
+.s-copa-1  { background-position:  0px -75px; }
+.s-copa-2  { background-position:  -50px -75px; }
+.s-copa-3  { background-position:  -100px -75px; }
+.s-copa-4  { background-position:  -150px -75px; }
+.s-copa-5  { background-position:  -200px -75px; }
+.s-copa-6  { background-position:  -250px -75px; }
+.s-copa-7  { background-position:  -300px -75px; }
+.s-copa-10 { background-position:  -350px -75px; }
+.s-copa-11 { background-position:  -400px -75px; }
+.s-copa-12 { background-position:  -450px -75px; }
+
+.s-espada-1  { background-position:  0px -150px; }
+.s-espada-2  { background-position:  -50px -150px; }
+.s-espada-3  { background-position:  -100px -150px; }
+.s-espada-4  { background-position:  -150px -150px; }
+.s-espada-5  { background-position:  -200px -150px; }
+.s-espada-6  { background-position:  -250px -150px; }
+.s-espada-7  { background-position:  -300px -150px; }
+.s-espada-10 { background-position:  -350px -150px; }
+.s-espada-11 { background-position:  -400px -150px; }
+.s-espada-12 { background-position:  -450px -150px; }
+
+.s-basto-1  { background-position:  0px -225px; }
+.s-basto-2  { background-position:  -50px -225px; }
+.s-basto-3  { background-position:  -100px -225px; }
+.s-basto-4  { background-position:  -150px -225px; }
+.s-basto-5  { background-position:  -200px -225px; }
+.s-basto-6  { background-position:  -250px -225px; }
+.s-basto-7  { background-position:  -300px -225px; }
+.s-basto-10 { background-position:  -350px -225px; }
+.s-basto-11 { background-position:  -400px -225px; }
+.s-basto-12 { background-position:  -450px -225px; }
+
+
+
+div.pos-0, div.pos-1, div.pos-2, div.pos-3, div.pos-4{
+	width: 170px;
+	height: 75px;	
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 16px;
+	position: absolute;
+	z-index: 2;
+}
+
+div.pos-0 {
+	top:90px;
+	left:580px;	
+}
+
+div.pos-0 div.droppedCard{
+	top:50px;
+	left:-105px;	
+}
+
+
+
+div.pos-1 {
+	top:0px;
+	left:315px;	
+}
+
+div.pos-1 div.droppedCard{
+	top:95px;
+	left:62px;
+}
+
+
+
+div.pos-2 {
+	top:90px;
+	left:50px;	
+}
+
+div.pos-2 div.droppedCard{
+	top:50px;
+	left:220px;	
+}
+
+
+div.pos-3 {
+	top:230px;
+	left:30px;	
+}
+
+div.pos-3 div.droppedCard{
+	top:10px;
+	left:205px;	
+}
+
+
+div.pos-4 {
+	top:230px;
+	left:605px;	
+}
+
+div.pos-4 div.droppedCard{
+	top:10px;
+	left:-95px;	
+}
+
+
+
+#tbl-rooms{
+	width: 500px;
+	color:#fff;
+	border: 3px solid #2a2a2a;
+}
+
+#tbl-rooms th{
+	background-color: #1f1f1f;
+}
+
+#tbl-rooms tr{
+	height: 30px;
+}
+
+#tbl-rooms tr:nth-child(odd) td{
+	background-color:#464646;
+}
+
+#tbl-rooms td{
+	background-color:#5a5959;
+	width: 100px;
+	text-align: center;
+}
+
+#tbl-rooms td a{
+	float: right;
+	color:#fff;
+}
+
+
