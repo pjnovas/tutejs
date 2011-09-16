@@ -1,0 +1,30 @@
+<div class="mainCtn">
+	<div class="logoMain"></div>
+	<h3>Salas de juego</h3>
+	<table id="tbl-rooms" cellspacing="0">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Estado</th>
+				<th>Usuarios</th>
+				<th>Jugadores</th>
+			</tr>
+		</thead>
+		<tbody id="rooms">
+			<tr>
+				<td colspan="4">Cargando Salas...</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script id="tr-room" type="text/x-jquery-tmpl">
+    <tr>
+    	<td style="width: 30px;"><a href='/rooms/${id}'>#${id}</a></td>
+    	<td>${state}</td>
+    	<td>${clients}</td>
+    	<td>${players} / ${sits}</td>
+    </tr>
+</script>
+
+<script type="text/javascript" src="/js/main.js" ></script>
+
