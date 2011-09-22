@@ -111,7 +111,6 @@ Round.prototype.canDropCard = function (player, cardToDrop){
 }
 
 Round.prototype.move = function (plDroppedIdx, cardDropped){
-	console.log('executing round move');
 	this.droppedCards.push(cardDropped);
 	var currPrior = this.droppedCards[this.priorCardIdx];
 
@@ -119,15 +118,12 @@ Round.prototype.move = function (plDroppedIdx, cardDropped){
 		this.priorCardIdx = this.droppedCards.length - 1;
 		this.plPriorCard = plDroppedIdx;
 	}
-	console.log('droppeds length ' + this.droppedCards.length);
 	
 	if (this.roundIdx < this.roundtimes){
 		this.roundIdx++;
-		console.log('about to execute event onRoundMoved');
 		this.onRoundMoved();
 	}
-	else {
-		console.log('about to execute event onRoundEnd'); 
+	else { 
 		this.onRoundEnd(this.plPriorCard);
 	}
 }

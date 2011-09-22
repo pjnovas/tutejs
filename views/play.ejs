@@ -1,5 +1,5 @@
 <div id="conecting" style="width: 100%; height: 800px; position: absolute; top:0;left:0; z-index:1000;">
-	Conectando...</div>
+	<%= lang.room.connecting %></div>
 <div class="top">
 	<div class="logo"></div>
 	<div class="gameStatus">
@@ -8,35 +8,35 @@
         	<div class="beans"></div>
             <div class="status"></div>
             <div class="stolenCards"></div>
-            <div class="plName">[Disponible]</div>
+            <div class="plName"><%= lang.room.available %></div>
             <div class="droppedCard"></div>
         </div>
         <div class="pos-1 sit available" idx="1">
         	<div class="beans"></div>
             <div class="status"></div>
             <div class="stolenCards"></div>
-            <div class="plName">[Disponible]</div>
+            <div class="plName"><%= lang.room.available %></div>
             <div class="droppedCard"></div>
         </div>
         <div class="pos-2 sit available" idx="2">
         	<div class="beans"></div>
             <div class="status"></div>
             <div class="stolenCards"></div>
-            <div class="plName">[Disponible]</div>
+            <div class="plName"><%= lang.room.available %></div>
             <div class="droppedCard"></div>
         </div>
         <div class="pos-3 sit available" idx="3">
         	<div class="beans"></div>
             <div class="status"></div>
             <div class="stolenCards"></div>
-            <div class="plName">[Disponible]</div>
+            <div class="plName"><%= lang.room.available %></div>
             <div class="droppedCard"></div>
         </div>
         <div class="pos-4 sit available" idx="4">
         	<div class="beans"></div>
             <div class="status"></div>
             <div class="stolenCards"></div>
-            <div class="plName">[Disponible]</div>
+            <div class="plName"><%= lang.room.available %></div>
             <div class="droppedCard"></div>
         </div>
         <div id="tableGame">
@@ -50,14 +50,14 @@
 	</div>
 	<div class="right">
 		<div id="sysMsg"></div>
-		<div id="callBtn">Cantar</div>
+		<div id="callBtn"><%= lang.room.sing %></div>
 		<ul class="playerCalls" style="display: none;">
-	    	<li style="margin-top: 15px; border: none;"><a class="call" id="20s-oro">Las 20 en oro</a></li>
-	    	<li><a class="call" id="20s-copa">Las 20 en copa</a></li>
-	    	<li><a class="call" id="20s-espada">Las 20 en espada</a></li>
-	    	<li><a class="call" id="20s-basto">Las 20 en basto</a></li>
-			<li><a class="call" id="40s">Las 40</a></li>
-	    	<li><a class="call" id="tute">Tute!!!</a></li>
+	    	<li style="margin-top: 15px; border: none;"><a class="call" id="20s-oro"><%= lang.room.sing20oro %></a></li>
+	    	<li><a class="call" id="20s-copa"><%= lang.room.sing20copa %></a></li>
+	    	<li><a class="call" id="20s-espada"><%= lang.room.sing20espada %></a></li>
+	    	<li><a class="call" id="20s-basto"><%= lang.room.sing20basto %></a></li>
+			<li><a class="call" id="40s"><%= lang.room.sing40 %></a></li>
+	    	<li><a class="call" id="tute"><%= lang.room.singTute %></a></li>
     	</ul>
 		<div class="hand">
 			<div class="playerHand"></div>
@@ -66,6 +66,7 @@
 </div> 
 <script id="playerTmpl" type="text/x-jquery-tmpl">
 	<div class="beans bean${beans}"></div>
+	<div class="image"><img src="${image}"/></div>
     {{if stolenCards.length > 0}}
     	<div class="status">${stolenPoints}</div>
     	<div class="stolenCards deck${calledIndex}"></div>
@@ -82,6 +83,8 @@
 </script>
 <script type="text/javascript">
 	var roomId = <%= roomId %>;
+	var userAuthName = "<%= userAuth.name %>";
+	var userAuthImage = "<%= userAuth.image %>";
 </script>
 <script type="text/javascript" src="/js/tute.js" ></script>
 

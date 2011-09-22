@@ -8,6 +8,7 @@ function Player(options){
 	//publics
 	this.clientId = options.clientId;
 	this.name = options.name;
+	this.image = options.image;
 	this.position = options.pos;
 	
 	//events
@@ -122,27 +123,27 @@ Player.prototype.sing = function (song){
 	switch(song){
 		case '20s-oro':
 			this.called.t20.push(common.Suit[0]);
-			songSang = ' las 20 en oro ';
+			songSang = 'playerSang20o';
 			break;
 		case '20s-copa':
 			this.called.t20.push(common.Suit[1]);
-			songSang = ' las 20 en copa ';
+			songSang = 'playerSang20c';
 			break;
 		case '20s-espada':
 			this.called.t20.push(common.Suit[2]);
-			songSang = ' las 20 en espada ';
+			songSang = 'playerSang20e';
 			break;
 		case '20s-basto':
 			this.called.t20.push(common.Suit[3]);
-			songSang = ' las 20 en basto ';
+			songSang = 'playerSang20b';
 			break;
 		case '40s':
 			this.called.t40 = true;
-			songSang = ' las 40 ';
+			songSang = 'playerSang40';
 			break;
 		case 'tute':
 			this.called.tute = true;
-			songSang = ' TUTE ';
+			songSang = 'playerSangTUTE';
 			break;
 		default: console.log('Song not found: %s - by user %s', song, this.name);
 	}

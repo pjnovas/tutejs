@@ -111,12 +111,13 @@ Game.prototype.startGame = function(){
 	}
 } 
 
-Game.prototype.joinPlayer = function(name, pos, id){
+Game.prototype.joinPlayer = function(name, pos, id, image){
 	var me = this;
 	
 	var pl = new playerClass.Player({
 		clientId: id,
 		name: name,
+		image: image,
 		pos: pos,
 		onBeforeDropCard: function(pl, aCard){
 			return me.currentRound.canDropCard(pl, aCard);
@@ -265,7 +266,7 @@ Game.prototype.sitOutPlayer = function(name){
 	
 	var pl = this.getPlayerByName(name);
 	
-	if (pl.disconnected){
+	if (pl !== null && pl.disconnected){
 		if (!this.isOnGame) {
 			this.removePlayer(name);
 		} else {

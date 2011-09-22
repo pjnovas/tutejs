@@ -28,68 +28,66 @@ Room.prototype.initGame = function(){
 					playersAmm: this.sits,
 					onGameStarted: function (){
 						me.state = common.RoomStates[1];
-						me.sendSystemMessage('Juego Iniciado');
-						//me.notifyRoomsState();
+						me.sendSystemMessage('gameStarted');
 					},
 					onGameStarts: function (trumpIdx){
-						me.sendSystemMessage('Nueva partida!');
+						me.sendSystemMessage('newGame');
 						me.updateTable(me.getPlayers(), null, true);
 						me.updateTrump(trumpIdx);
 					},
 					onGameEnd: function(players){
 						me.updateTable(me.getPlayers(), null, false);
 						me.showWinners(players);
-						me.sendSystemMessage('Nueva Partida en 15 segundos ...');
+						me.sendSystemMessage('gameEnds');
 					},
 					onGameFinished: function(players){
-						me.sendSystemMessage('Reiniciando sala en 15 segundos ...');
+						me.sendSystemMessage('roomReseting');
 						me.updateTable(me.getPlayers(), null, false);
 						me.showWinners(players);
 					},
 					onGameFinishedEnd: function(){
 						me.updateTable([], null, false);
 						me.state = common.RoomStates[0];
-						//me.notifyRoomsState();
+
 						nowjs.getGroup(me.id).now.clearRoom();
 					},
 					onNewRound: function(players, plTurn){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
-						me.sendSystemMessage('Nueva mano');
+						me.sendSystemMessage('newTrick');
 					},
 					onRoundMoved: function(players, plTurn){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
 					},
 					onRoundEnd: function(players){
 						me.updateTable(me.getPlayers(), null, false);
-						me.sendSystemMessage('Fin de mano');
+						me.sendSystemMessage('endTrick');
 					},
 					onPlayerTookSit: function(players, name){
 						me.updateTrump(me.game.currentTrumpIdx);
 						me.updateTable(me.getPlayers(), null, false);
-						me.sendSystemMessage('Jugador ' + name + ' se ha sentado');
+						me.sendSystemMessage('playerTookSit', [name]);
 					},
 					onPlayerLeftRoom: function(players, name){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
-						me.sendSystemMessage(name + ' se ha desconectado, esperando 30 segs');
+						me.sendSystemMessage('playerLeftRoom', [name]);
 					},
 					onPlayerKickedOut: function(name){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
-						me.sendSystemMessage('Jugador ' + name + ' eliminado');
-						//me.notifyRoomsState();
+						me.sendSystemMessage('playerKicked', [name]);
 					},
 					onPlayerReTookSit: function(players, name){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), true);
-						me.sendSystemMessage('Jugador ' + name + ' re-conectado');
+						me.sendSystemMessage('playerReTookSit', [name]);
 						
 						if (!me.game.isOnPause)
 							setTimeout(function(){
-								me.sendSystemMessage('Se reanuda juego');	
+								me.sendSystemMessage('gameResume');	
 							}, 1000);
 							
 					},
 					onPlayerSang : function(name, song){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
-						me.sendSystemMessage('Jugador ' + name + ' canto ' + song);
+						me.sendSystemMessage(song, [name]);
 					}
 				}); 
 }
@@ -111,6 +109,7 @@ Room.prototype.getPlayers = function(){
 		
 		var pl = {
 			name: gPl.name,
+			image: gPl.image,
 			position: gPl.position,
 			droppedCard: gPl.droppedCard,
 			stolenCards: gPl.stolenCards,
@@ -169,8 +168,8 @@ Room.prototype.updateTable = function(players, turn, updateCards){
 	} 
 }
 
-Room.prototype.sendSystemMessage = function(msg){
-	nowjs.getGroup(this.id).now.sendlogSystem(msg);
+Room.prototype.sendSystemMessage = function(msg, params){
+	nowjs.getGroup(this.id).now.sendlogSystem(msg, params);
 }
 
 Room.prototype.joinRoom = function(clientId, name){
@@ -185,7 +184,7 @@ Room.prototype.joinRoom = function(clientId, name){
 		});
 		
 		player.reConnected(clientId);
-	} //else nowGroup.now.sendlog('Sistema', 'Ha ingresado espectador: ' + name);
+	}
 	
 	this.updateTable(this.getPlayers(), this.getPlayerTurn(), false);
 }
@@ -199,8 +198,8 @@ Room.prototype.leaveRoom = function (name, clientId) {
 	nowjs.getGroup(this.id).removeUser(clientId);
 }
 
-Room.prototype.takeSit = function(playerName, sitPosition, clientId){
-	this.game.joinPlayer(playerName, sitPosition, clientId);
+Room.prototype.takeSit = function(playerName, sitPosition, clientId, image){
+	this.game.joinPlayer(playerName, sitPosition, clientId, image);
 }
 
 Room.prototype.getState = function(){

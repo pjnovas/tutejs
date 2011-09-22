@@ -4,14 +4,19 @@ var CardNumbers = [1,3,12,11,10,7,6,5,4,2];
 
 
 now.start = function(){
-	
+	/*
 	do {
 		var myName = prompt("Tu nombre?", "");
 	}
 	while($.trim(myName) === '');
 	
 	now.name = myName;
+	now.image = '';
 	document.title = 'Tute.js - ' + now.name;
+	*/
+	
+	now.name = userAuthName;
+	now.image = userAuthImage;
 	
 	now.joinRoom(roomId);
 }
@@ -42,7 +47,7 @@ $(document).ready(function(){
 	$places.live('click', function(){
 		now.sit = parseFloat($(this).attr('idx'));
 		$places.removeClass('available').unbind('click');
-		$places.not('[idx=' + now.sit + '] ').children('div.plName').text('Esperando...');
+		$places.not('[idx=' + now.sit + '] ').children('div.plName').text(lang.gameplay.waiting);
 		now.takeSit();
 	});
 	
@@ -83,7 +88,7 @@ function clearRoom(){
 		.append('<div class="beans"></div>')
         .append('<div class="status"></div>')
         .append('<div class="stolenCards"></div>')
-        .append('<div class="plName">[Disponible]</div>')
+        .append('<div class="plName">'+ lang.gameplay.available +'</div>')
         .append('<div class="droppedCard"></div>');
 }	
 
@@ -107,10 +112,11 @@ now.updatePlayers = function(players, plTurn){
 			$plCtn.addClass('out').attr('title','Fuera de mesa');
 		}
 		else if (pl.disconnected){
-			$plCtn.addClass('disconnected').attr('title','Desconectado, esperando...');
+			$plCtn.removeClass('out').addClass('disconnected').attr('title','Desconectado, esperando...');
 			var $plName = $('div.plName', $plCtn);
 			$plName.text('[' + $plName.text() + ']');
 		}
+		else $plCtn.removeClass('out').removeClass('disconnected').attr('title','');
 			
 	}
 	
@@ -228,8 +234,16 @@ function SendToLogChat(who, msg){
 	now.sendChatMsg(who, msg);
 }
 
-now.sendlogSystem = function(msg){
-	$('#sysMsg').text(msg);
+now.sendlogSystem = function(alert, params){
+	var output = lang.gameplay.alerts[alert];
+	
+	if (params !== null) {
+		for(var i=0; i<params.length; i++){
+			output = output.replace('{' + i + '}', params[i]); 
+		}
+	}
+	
+	$('#sysMsg').text(output);
 }
 
 

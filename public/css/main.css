@@ -7,6 +7,10 @@ body
 	background-repeat:repeat;		
 }
 
+a {
+	color: #fff;
+}
+
 .card
 {
 	width:100px;
@@ -356,8 +360,20 @@ div.stolenCards.deck2 { background-position:  -40px -175px; }
 div.stolenCards.deck3 { background-position:  -80px -175px; }
 div.stolenCards.deck4 { background-position:  -120px -175px; }
 
+div.image{
+	float: left;
+	width: 40px;
+	height: 40px;
+	border: solid 1px silver; 
+}
+
+div.image img{
+	width: 40px;
+	height: 40px;
+}
+
 div.status{
-	width: 80px;
+	width: 30px;
 	height: 35px;
 	float:left;
 	color: #FFF;

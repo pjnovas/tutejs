@@ -12,7 +12,12 @@ $(document).ready(function(){
 });
 
 now.updateRooms = function(rs){
-	$('#rooms tr').empty().remove();	
-	$("#tr-room").tmpl(rs).appendTo("#rooms");
+	if ($('#rooms').length > 0){
+		$('#rooms tr').empty().remove();	
+		$("#tr-room").tmpl(rs).appendTo("#rooms");
+	}
 }
 
+function getRoomStatus(status){
+	return lang.home.roomStatus[status];
+}
