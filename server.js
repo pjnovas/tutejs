@@ -90,6 +90,13 @@ app.get('/rooms', function(req, res){
 	RenderHome(req, res);
 });
 
+var everyauth = require('everyauth');
+//route for facebook embeded app
+app.post('/canvas', function(req, res){
+	
+	RenderHome(req, res);
+});
+
 app.get('/', function(req, res){
 	RenderHome(req, res);
 });

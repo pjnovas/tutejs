@@ -15,29 +15,38 @@ var initializeAuth = function(app){
 	everyauth.helpExpress(app);
 }
 
-function addUser (source, sourceUser) {
-	var user;	
+function addUser (source, sourceUser) {	
+	
+	var userId = "";	
 	var name = "";
+	var userName = "";
 	var imageURL = "";
-	 	
+	
 	switch(source){
 		case "twitter":
-			name = sourceUser.screen_name;
+			userId = sourceUser.id_str;
+			name = sourceUser.name;
+			userName = sourceUser.screen_name;
 			imageURL = sourceUser.profile_image_url;
 			break;
 		case "facebook":
-			name = sourceUser.username;
+			userId = sourceUser.id;
+			name = sourceUser.name;
+			userName = sourceUser.username;
 			imageURL = 'http://graph.facebook.com/' + sourceUser.id + '/picture';
  			break;
  		case "google":
- 			name = sourceUser.id.split('@')[0];
+ 			userId = sourceUser.id;
+ 			userName = sourceUser.id.split('@')[0];
+ 			name = userName;
 			//imageURL = 'http://www.google.com/m8/feeds/photos/media/default/' + sourceUser.id; 
  			break;
- 			
  	}
  	
-    user = usersById[++nextUserId] = {
+    var user = usersById[++nextUserId] = {
 	    	id: nextUserId,
+	    	authId: userId,
+	    	authUser: userName,
 	    	name: name,
 	    	image: imageURL
     	};
@@ -47,7 +56,6 @@ function addUser (source, sourceUser) {
 }
  
 everyauth.everymodule
-	//.logoutPath('/')
 	.findUserById( function (id, callback) {
 	    callback(null, usersById[id]);
 	});
@@ -63,9 +71,6 @@ everyauth.google
   	.findOrCreateUser( function (sess, accessToken, extra, googleUser) {
     	googleUser.refreshToken = extra.refresh_token;
     	googleUser.expiresIn = extra.expires_in;
-    	//console.log('Google name ' + extra.contactId);
-    	//console.log('Google name ' + extra.contactId);
-    	//googleUser.picture = extra.contactId;
     	return usersByGoogleId[googleUser.id] || (usersByGoogleId[googleUser.id] = addUser('google', googleUser));
   	})
   	.redirectPath('/');

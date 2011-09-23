@@ -1,4 +1,6 @@
-
+var gameSounds = {};
+var buzzGroup;
+var plsActives = 0;
 var Suit = ['oro','copa','espada','basto'];
 var CardNumbers = [1,3,12,11,10,7,6,5,4,2]; 
 
@@ -37,7 +39,7 @@ now.startScreeen = function(sits){
 	$('#conecting').hide();	
 	//clearRoom();
 }
-	
+
 $(document).ready(function(){
 	$('div.gameStatus div').hide();
 	
@@ -56,6 +58,8 @@ $(document).ready(function(){
 	$('#callBtn').bind('click', function(){
 		$('ul.playerCalls').toggle();
 	});
+	
+	initSounds();
 });
 
 now.changeTrump = function(suit){
@@ -64,7 +68,8 @@ now.changeTrump = function(suit){
 	$trump.addClass('trump').addClass('trump-' + suit);
 };
 
-now.showWinners = function(players){	
+now.showWinners = function(players){
+	gameSounds.finish.play();	
 	for(var i=0; i < players.length; i++) {
 		if (!players[i].isOut) {
 			var $plCtn = $('div.gameStatus div.pos-'+ players[i].position);
@@ -93,7 +98,7 @@ function clearRoom(){
 }	
 
 now.updatePlayers = function(players, plTurn){	
-	
+	plsActives = players.length;
 	for(var i=0; i < players.length; i++) {
 		var pl = players[i];
 		
@@ -117,7 +122,6 @@ now.updatePlayers = function(players, plTurn){
 			$plName.text('[' + $plName.text() + ']');
 		}
 		else $plCtn.removeClass('out').removeClass('disconnected').attr('title','');
-			
 	}
 	
 	// Bind-Unbind drop card events
@@ -134,8 +138,6 @@ now.updatePlayers = function(players, plTurn){
 		});
 	}
 	else $('div.playerCard').unbind('click');
-	
-	
 }
 
 now.updateMyCards = function(cards, plTurn){	
@@ -161,6 +163,7 @@ now.updateMyCards = function(cards, plTurn){
 	}
 	
 	UpdateCardMargin();
+	gameSounds.deal.play();
 }
 
 function UpdateCardMargin(){
@@ -235,19 +238,79 @@ function SendToLogChat(who, msg){
 }
 
 now.sendlogSystem = function(alert, params){
-	var output = lang.gameplay.alerts[alert];
-	
-	if (params !== null) {
-		for(var i=0; i<params.length; i++){
-			output = output.replace('{' + i + '}', params[i]); 
+	if (alert != 'playerDropCard' && alert != 'playerSang'
+		&& alert != 'dealer'){
+		var output = lang.gameplay.alerts[alert];
+		
+		if (params !== null) {
+			for(var i=0; i<params.length; i++){
+				output = output.replace('{' + i + '}', params[i]); 
+			}
 		}
+		
+		$('#sysMsg').text(output);
 	}
 	
-	$('#sysMsg').text(output);
+	switch(alert){
+		case 'playerTookSit': 
+			gameSounds.tooksit.play();
+			break;
+		case 'playerLeftRoom': 
+			gameSounds.disconnect.play();
+			break;
+		case 'playerKicked': 
+			gameSounds.out.play();
+			break;
+		case 'playerDropCard':
+			gameSounds.dropcard.play();
+			break;
+		case 'playerSang':
+			gameSounds.sing.play();
+			break;
+		case 'dealer':
+			gameSounds.deal.play();
+			break;
+		case 'roomReseting':
+			var $tr = $('div.playerHand');
+			$tr.children('div').empty().remove();
+			$tr.empty();
+			break;
+	}
 }
 
-
-
-
-
-
+function initSounds(){	
+	var formats = ['ogg', 'mp3', 'wav'];
+	
+	gameSounds = {
+		tooksit: new buzz.sound("../sounds/tooksit", {formats: formats}),
+		disconnect: new buzz.sound("../sounds/disconnect", {formats: formats}),
+		out: new buzz.sound("../sounds/out", {formats: formats}),
+		deal: new buzz.sound("../sounds/deal", {formats: formats}),
+		dropcard: new buzz.sound("../sounds/dropcard", {formats: formats}),
+		sing: new buzz.sound("../sounds/sing", {formats: formats}),
+		finish: new buzz.sound("../sounds/finish", {formats: formats})
+	};
+	
+	buzzGroup = new buzz.group([
+		gameSounds.tooksit,
+		gameSounds.disconnect,
+		gameSounds.out,
+		gameSounds.deal,
+		gameSounds.dropcard,
+		gameSounds.sing,
+		gameSounds.finish
+	]);
+	
+	$('#soundMan').bind('click', function(){
+		if ($(this).hasClass('unmute')){
+			buzzGroup.mute();
+			$(this).removeClass().addClass('mute');
+		}
+		else {
+			buzzGroup.unmute();
+			$(this).removeClass().addClass('unmute');
+		}
+	});
+	
+	buzzGroup.Load();
+}

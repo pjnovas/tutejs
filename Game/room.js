@@ -57,9 +57,11 @@ Room.prototype.initGame = function(){
 					},
 					onRoundMoved: function(players, plTurn){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
+						me.sendSystemMessage('playerDropCard');
 					},
 					onRoundEnd: function(players){
 						me.updateTable(me.getPlayers(), null, false);
+						me.sendSystemMessage('playerDropCard');
 						me.sendSystemMessage('endTrick');
 					},
 					onPlayerTookSit: function(players, name){
@@ -88,6 +90,7 @@ Room.prototype.initGame = function(){
 					onPlayerSang : function(name, song){
 						me.updateTable(me.getPlayers(), me.getPlayerTurn(), false);
 						me.sendSystemMessage(song, [name]);
+						me.sendSystemMessage('playerSang');
 					}
 				}); 
 }

@@ -544,4 +544,18 @@ div.pos-4 div.droppedCard{
 	color:#fff;
 }
 
+#soundMan{
+	float: right;
+	width: 80px;
+	height: 30px;
+	cursor: pointer;
+	margin-top: -15px;
+}
 
+div.unmute{
+	color: white;
+}
+
+div.mute{
+	color: red;
+}
