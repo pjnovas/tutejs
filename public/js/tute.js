@@ -132,7 +132,7 @@ now.updatePlayers = function(players, plTurn){
 			now.dropCard(card.number, card.suit, function(wasDropped){
 				if (wasDropped) {
 					$(me).empty().remove();
-					UpdateCardMargin();
+					//UpdateCardMargin();
 				}
 			});
 		});
@@ -155,14 +155,22 @@ now.updateMyCards = function(cards, plTurn){
 	
 	for(j=0; j< cards.length; j++ ){
 		var card = cards[j];
-		$tr.append(
-			$('<div>').addClass('playerCard').addClass('card')
-			.addClass(card.suit.toLowerCase() + '-' + card.number)
-			.data('card', card)
-		);
+		var cls = "all";
+		if (card.number === 1) 
+			cls = "1"
+		
+		var $cardDiv = $('<div>').addClass('playerCard').addClass('card')
+			.addClass(card.suit.toLowerCase() + '-' + cls).data('card', card);
+		
+		if (card.number !== 1)
+			$cardDiv.append($('<div>').addClass('cardNbr').text(card.number));
+		
+		$cardDiv.append($('<div>').addClass('cardValue').addClass('cv-' + card.number));
+		
+		$tr.append($cardDiv);
 	}
 	
-	UpdateCardMargin();
+	//UpdateCardMargin();
 	gameSounds.deal.play();
 }
 

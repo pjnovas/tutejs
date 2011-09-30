@@ -6,7 +6,10 @@ var I18n = {
 		roomTitle: "Tute JS Room # ",
 		home:{
 			welcome: "Welcome ",
-			logout: "[Logout]",
+			logout: "[exit]",
+			loginmessage: "We only need your name and photo for the game. We are NOT saving your info",
+			signinfb: "Sign in with Facebook",
+			signintw: "Sign in with Twitter",
 			roomsTitle: "Play rooms",
 			roomStatusTlt: "Status",
 			roomsUsers: "Users",
@@ -59,6 +62,9 @@ var I18n = {
 		home:{
 			welcome: "Bienvenido ",
 			logout: "[Salir]",
+			loginmessage: "Solo necesitamos tu nombre y foto para el juego, NO guardamos tu info",
+			signinfb: "Ingresar con Facebook",
+			signintw: "Ingresar con Twitter",
 			roomsTitle: "Salas de juego",
 			roomStatusTlt: "Estado",
 			roomsUsers: "Usuarios",

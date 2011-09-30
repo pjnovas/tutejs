@@ -11,14 +11,17 @@
 	</div>
 	<% if (!loggedIn) { %>
 		<div style="margin: 20px 0; float:left;">
-		    <div id="fb_login" class="fb_button" style="background-position: left -188px; float: left; margin-right: 7px;">
-		    	<a class="fb_button_medium" href="/auth/facebook">
-		    		<span class="fb_button_text">Sign in with Facebook</span>
+			<p><%= lang.home.loginmessage %></p>
+		    <div id="fb_login" class="fb_button" style="background-position: left -99px;height:39px; width:330px; float: left; margin-right: 7px; border-radius: 10px; ">
+		    	<a class="fb_button_xlarge" href="/auth/facebook" >
+		    		<span class="fb_button_text" style="border-radius: 0px 10px 10px 0px; font-size: 12pt;"><%= lang.home.signinfb %></span>
 		    	</a>
 		    </div>
-			<a href="/auth/twitter">
-				<img src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png' style="border: 0px;" />
-			</a>
+		    <div style="width:330px; border-radius: 10px; height: 37px; background-color: gray;float:left; margin-top: 10px;">
+		    	<img src="https://si0.twimg.com/images/dev/cms/intents/bird/bird_blue/bird_32_blue.png" style=" float:left;margin:4px;">
+		    	<a href="/auth/twitter" style="border:solid 1px silver; border-width: 0 0 0 1px;float:left; padding-left: 10px; line-height: 2.3; text-decoration: none; 
+		    	font-family:lucida grande,tahoma,verdana,arial,sans-serif; font-weight: bold; font-size: 12pt;"><%= lang.home.signintw %></a>
+		    </div>
 			<!--<a href="/auth/google">
 				<img src='/images/signG.png' style="border: 0px; width: 155px; height: 25px;" />
 			</a>-->
@@ -28,30 +31,32 @@
 			<%= lang.home.welcome %> <img src="<%= userAuth.image %>" /> <%= userAuth.name %> 
 			<a href="/logout" style="color:white;"><%= lang.home.logout %></a>
 		</div>
-		<h3><%= lang.home.roomsTitle %></h3>
-		<table id="tbl-rooms" cellspacing="0">
-			<thead>
-				<tr>
-					<th></th>
-					<th><%= lang.home.roomStatusTlt %></th>
-					<th><%= lang.home.roomsUsers %></th>
-					<th><%= lang.home.roomsPlayers %></th>
-				</tr>
-			</thead>
-			<tbody id="rooms">
-				<tr>
-					<td colspan="4"><%= lang.home.loadingRooms %></td>
-				</tr>
-			</tbody>
-		</table>
-		<script id="tr-room" type="text/x-jquery-tmpl">
-		    <tr>
-		    	<td style="width: 30px;"><a href='/rooms/${id}'>#${id}</a></td>
-		    	<td>${getRoomStatus(state)}</td>
-		    	<td>${clients}</td>
-		    	<td>${players} / ${sits}</td>
-		    </tr>
-		</script>
+		<div style="margin: 20px 0; float:left;">
+			<h3><%= lang.home.roomsTitle %></h3>
+			<table id="tbl-rooms" cellspacing="0">
+				<thead>
+					<tr>
+						<th></th>
+						<th><%= lang.home.roomStatusTlt %></th>
+						<th><%= lang.home.roomsUsers %></th>
+						<th><%= lang.home.roomsPlayers %></th>
+					</tr>
+				</thead>
+				<tbody id="rooms">
+					<tr>
+						<td colspan="4"><%= lang.home.loadingRooms %></td>
+					</tr>
+				</tbody>
+			</table>
+			<script id="tr-room" type="text/x-jquery-tmpl">
+			    <tr>
+			    	<td style="width: 30px;"><a href='/rooms/${id}'>#${id}</a></td>
+			    	<td>${getRoomStatus(state)}</td>
+			    	<td>${clients}</td>
+			    	<td>${players} / ${sits}</td>
+			    </tr>
+			</script>
+		</div>
 	<% } %>
 </div>
 <script type="text/javascript" src="/js/main.js" ></script>
